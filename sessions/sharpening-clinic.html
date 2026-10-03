@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sharpening Clinic | AP Mastery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+<style>
+/* Layout: hub of slide-cover tiles -> one session per view: player on top, clickable outline under it */
+:root {
+  --bg: #f4f6fa; --surface: #ffffff; --ink: #0f1f3d; --soft: #5b6884; --line: #e1e6ef;
+  --navy: #13294b; --blue: #1f5fbf; --sky: #2f8ae0; --gold: #e8aa42; --hover: #eaf1fc;
+  --shadow: 0 10px 30px rgba(19, 41, 75, .14);
+  --font: "Poppins", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0b1424; --surface: #121e33; --ink: #e8eef9; --soft: #9aa8c2; --line: #22314d;
+  --navy: #0d1d38; --blue: #5b9bf0; --sky: #6fb0ff; --gold: #f0b85a; --hover: #18284a;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .45); color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0b1424; --surface: #121e33; --ink: #e8eef9; --soft: #9aa8c2; --line: #22314d;
+  --navy: #0d1d38; --blue: #5b9bf0; --sky: #6fb0ff; --gold: #f0b85a; --hover: #18284a;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .45); color-scheme: dark }
+* { box-sizing: border-box }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.5 }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 0 64px }
+header.top { background: linear-gradient(120deg, #13294b, #1f5fbf 70%, #2f8ae0); color: #fff; padding-top: env(safe-area-inset-top, 0px) }
+header.top .bar { max-width: 1180px; margin: 0 auto; padding: 18px 20px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap }
+.brand { display: flex; flex-direction: column; line-height: 1.15 }
+.brand .who { font-weight: 300; font-size: 14px; opacity: .85 }
+.brand .what { font-weight: 600; font-size: 22px; letter-spacing: .01em }
+nav a { color: #fff; text-decoration: none; font-weight: 500; font-size: 15px; padding: 8px 14px; border-radius: 10px; background: rgba(255,255,255,.12) }
+nav a:hover, nav a:focus-visible { background: rgba(255,255,255,.24); outline: none }
+/* hub */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 22px; padding-top: 28px }
+.tile { display: block; text-decoration: none; color: inherit; background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); transition: transform .15s ease, box-shadow .15s ease }
+.tile:hover, .tile:focus-visible { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(31, 95, 191, .28); outline: none }
+.tile:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px }
+.tile .img { aspect-ratio: 16 / 9; background: var(--navy); overflow: hidden }
+.tile img { width: 100%; height: 100%; object-fit: cover; display: block }
+.tile .name { padding: 14px 16px 16px; font-weight: 600; font-size: 16px; line-height: 1.3; text-wrap: balance }
+/* session */
+.session { padding-top: 26px; display: grid; gap: 22px; max-width: 960px; margin: 0 auto }
+.session h1 { margin: 0; font-size: 26px; font-weight: 600; line-height: 1.25; text-wrap: balance; color: var(--ink) }
+.player { position: relative; aspect-ratio: 16 / 9; width: 100%; max-width: 100%; background: #000; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow) }
+.player iframe, .player > div { position: absolute; inset: 0; width: 100%; height: 100% }
+.outline { display: grid; gap: 6px; padding: 0; margin: 0; list-style: none }
+.sec { background: var(--surface); border-radius: 12px; padding: 6px; box-shadow: 0 1px 0 var(--line) }
+.sec.on { box-shadow: 0 0 0 2px var(--blue) }
+.jump { display: flex; gap: 14px; align-items: baseline; width: 100%; text-align: left; background: none; border: 0; color: var(--ink); font: inherit; padding: 10px 12px; border-radius: 9px; cursor: pointer }
+.jump:hover, .jump:focus-visible { background: var(--hover); outline: none }
+.jump .t { flex: 0 0 auto; min-width: 58px; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--blue); font-size: 14px }
+.jump .x { min-width: 0 }
+.sec > .jump .x { font-weight: 600; font-size: 16px }
+.pts { list-style: none; margin: 0; padding: 0 0 4px 0 }
+.pts .jump { padding: 7px 12px 7px 12px }
+.pts .jump .t { font-weight: 500; color: var(--soft) }
+.pts .jump .x { color: var(--ink); font-size: 14.5px }
+.pts .jump:hover .t { color: var(--blue) }
+@media (max-width: 560px) {
+  .session h1 { font-size: 21px }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px }
+  .tile .name { font-size: 14px; padding: 10px 12px 12px }
+  .jump .t { min-width: 48px }
+}
+@media (prefers-reduced-motion: reduce) { .tile { transition: none } .tile:hover { transform: none } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="bar">
+    <div class="brand"><span class="who">Aaron Prickel · Mastery</span><span class="what">Sharpening Clinic</span></div>
+  </div>
+</header>
+<main class="wrap">
+  <section class="session">
+    <div class="player"><div id="yt"></div></div>
+    <ol class="outline"><li class="sec" data-s="0"><button class="jump" data-s="0"><span class="t">0:00</span><span class="x">Application beats theory</span></button><ul class="pts"><li><button class="jump" data-s="51"><span class="t">0:51</span><span class="x">Theory without application is worthless</span></button></li><li><button class="jump" data-s="94"><span class="t">1:34</span><span class="x">Demonstrate it, don&#x27;t just say it</span></button></li><li><button class="jump" data-s="148"><span class="t">2:28</span><span class="x">Sports role play constantly; sales should too</span></button></li></ul></li>
+<li class="sec" data-s="158"><button class="jump" data-s="158"><span class="t">2:38</span><span class="x">Demonstrate training under pressure</span></button><ul class="pts"><li><button class="jump" data-s="188"><span class="t">3:08</span><span class="x">Now it is a consistency game</span></button></li><li><button class="jump" data-s="208"><span class="t">3:28</span><span class="x">Record and review your own conversations like game film</span></button></li></ul></li>
+<li class="sec" data-s="254"><button class="jump" data-s="254"><span class="t">4:14</span><span class="x">Voicemails: little pepper, add later</span></button><ul class="pts"><li><button class="jump" data-s="275"><span class="t">4:35</span><span class="x">Script: &quot;Hey, it&#x27;s Aaron. Quick question, call me&quot; plus number once</span></button></li><li><button class="jump" data-s="307"><span class="t">5:07</span><span class="x">Drop &quot;this is&quot;; talk like a friend, with some struggle</span></button></li><li><button class="jump" data-s="333"><span class="t">5:33</span><span class="x">Match and mirror their greeting; leave mystery</span></button></li></ul></li>
+<li class="sec" data-s="379"><button class="jump" data-s="379"><span class="t">6:19</span><span class="x">Edgy voicemail variations</span></button><ul class="pts"><li><button class="jump" data-s="390"><span class="t">6:30</span><span class="x">&quot;Studies say it takes 11 tries; call me or I&#x27;ll call seven more times&quot;</span></button></li><li><button class="jump" data-s="417"><span class="t">6:57</span><span class="x">Get cut off on purpose and let people correct you</span></button></li></ul></li>
+<li class="sec" data-s="455"><button class="jump" data-s="455"><span class="t">7:35</span><span class="x">Straight life in an unstraight world</span></button><ul class="pts"><li><button class="jump" data-s="464"><span class="t">7:44</span><span class="x">Don&#x27;t lie or manipulate, but you can be mysterious</span></button></li></ul></li>
+<li class="sec" data-s="491"><button class="jump" data-s="491"><span class="t">8:11</span><span class="x">Role play: reigniting a burned client</span></button><ul class="pts"><li><button class="jump" data-s="501"><span class="t">8:21</span><span class="x">Start with an upfront contract and set expectations</span></button></li><li><button class="jump" data-s="524"><span class="t">8:44</span><span class="x">Fixers rush to fix; fall on the sword instead</span></button></li><li><button class="jump" data-s="597"><span class="t">9:57</span><span class="x">Go more negative: &quot;Did we screw up so badly it&#x27;s not worth talking?&quot;</span></button></li><li><button class="jump" data-s="705"><span class="t">11:45</span><span class="x">Five-minute reconnect upfront contract with no harm, no foul</span></button></li></ul></li>
+<li class="sec" data-s="746"><button class="jump" data-s="746"><span class="t">12:26</span><span class="x">Who sold who more?</span></button><ul class="pts"><li><button class="jump" data-s="755"><span class="t">12:35</span><span class="x">If you convinced them more, they look for ways you&#x27;re wrong</span></button></li><li><button class="jump" data-s="796"><span class="t">13:16</span><span class="x">Problems always to the left: look back at the sale</span></button></li></ul></li>
+<li class="sec" data-s="850"><button class="jump" data-s="850"><span class="t">14:10</span><span class="x">Compelling pain, not &quot;how&quot; questions</span></button><ul class="pts"><li><button class="jump" data-s="859"><span class="t">14:19</span><span class="x">Rising how questions mean someone is intellectualizing</span></button></li><li><button class="jump" data-s="927"><span class="t">15:27</span><span class="x">&quot;It can always be better&quot; is not compelling pain</span></button></li><li><button class="jump" data-s="948"><span class="t">15:48</span><span class="x">Commitment questions: how committed are you to get this?</span></button></li></ul></li>
+<li class="sec" data-s="1000"><button class="jump" data-s="1000"><span class="t">16:40</span><span class="x">Emotional involvement and full pipelines</span></button><ul class="pts"><li><button class="jump" data-s="1062"><span class="t">17:42</span><span class="x">End-of-month scrambling creates emotional involvement</span></button></li><li><button class="jump" data-s="1083"><span class="t">18:03</span><span class="x">Full pipelines fix a lot of problems</span></button></li></ul></li>
+<li class="sec" data-s="1093"><button class="jump" data-s="1093"><span class="t">18:13</span><span class="x">Staying behind the pendulum</span></button><ul class="pts"><li><button class="jump" data-s="1093"><span class="t">18:13</span><span class="x">Neutral, tap positive; negative, go more negative</span></button></li><li><button class="jump" data-s="1115"><span class="t">18:35</span><span class="x">Don&#x27;t use techniques when conversation is progressing</span></button></li><li><button class="jump" data-s="1164"><span class="t">19:24</span><span class="x">Re-engage by asking why they started looking originally</span></button></li></ul></li>
+<li class="sec" data-s="1198"><button class="jump" data-s="1198"><span class="t">19:58</span><span class="x">Referrals and agendas</span></button><ul class="pts"><li><button class="jump" data-s="1226"><span class="t">20:26</span><span class="x">Without credibility, referrals become personal favors</span></button></li><li><button class="jump" data-s="1267"><span class="t">21:07</span><span class="x">Ask the referrer how they think you can help</span></button></li><li><button class="jump" data-s="1309"><span class="t">21:49</span><span class="x">The person sending the PO is rarely the decision maker</span></button></li><li><button class="jump" data-s="1339"><span class="t">22:19</span><span class="x">Ask: what do you want to get figured out today?</span></button></li></ul></li>
+<li class="sec" data-s="1445"><button class="jump" data-s="1445"><span class="t">24:05</span><span class="x">Second opinions and past burns</span></button><ul class="pts"><li><button class="jump" data-s="1476"><span class="t">24:36</span><span class="x">Never Split the Difference: only ask why when it works for you</span></button></li><li><button class="jump" data-s="1510"><span class="t">25:10</span><span class="x">Ask whether they don&#x27;t believe you&#x27;re the best fit</span></button></li><li><button class="jump" data-s="1529"><span class="t">25:29</span><span class="x">&quot;Has our conversation been different than the last three?&quot;</span></button></li></ul></li>
+<li class="sec" data-s="1652"><button class="jump" data-s="1652"><span class="t">27:32</span><span class="x">Impact before money</span></button><ul class="pts"><li><button class="jump" data-s="1652"><span class="t">27:32</span><span class="x">How you sell is a free sample of how you solve</span></button></li><li><button class="jump" data-s="1660"><span class="t">27:40</span><span class="x">Don&#x27;t talk money until you have impact</span></button></li><li><button class="jump" data-s="1669"><span class="t">27:49</span><span class="x">Flying car example of quantifying impact</span></button></li><li><button class="jump" data-s="1726"><span class="t">28:46</span><span class="x">Impact is not always dollars</span></button></li></ul></li>
+<li class="sec" data-s="1766"><button class="jump" data-s="1766"><span class="t">29:26</span><span class="x">Bracketing and pricing the problem</span></button><ul class="pts"><li><button class="jump" data-s="1766"><span class="t">29:26</span><span class="x">Recap needs, then bracket the price softly</span></button></li><li><button class="jump" data-s="1835"><span class="t">30:35</span><span class="x">Get a belief confirmation after the bracket</span></button></li><li><button class="jump" data-s="1879"><span class="t">31:19</span><span class="x">Carpenter story: bracket high before doing design work</span></button></li><li><button class="jump" data-s="1943"><span class="t">32:23</span><span class="x">Price to the problem, not the product</span></button></li></ul></li></ol>
+  </section>
+</main>
+<script>
+let player = null, ticker = null;
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('yt', { videoId: '90tnjCQUdXw', host: 'https://www.youtube-nocookie.com',
+    playerVars: { rel: 0, playsinline: 1, origin: location.origin },
+    events: { onReady: () => { ticker = setInterval(mark, 1000); } } });
+}
+function mark() {
+  if (!player || !player.getCurrentTime) return;
+  const now = player.getCurrentTime(); let cur = -1;
+  const secs = document.querySelectorAll('.sec');
+  secs.forEach((el, i) => { if (+el.dataset.s <= now + 0.5) cur = i; });
+  secs.forEach((el, i) => el.classList.toggle('on', i === cur));
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('.jump'); if (!b) return;
+  if (player && player.seekTo) { player.seekTo(+b.dataset.s, true); player.playVideo(); }
+  const box = document.querySelector('.player');
+  if (box.getBoundingClientRect().top < 0) box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>

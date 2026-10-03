@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Building a Fanbase | AP Mastery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+<style>
+/* Layout: hub of slide-cover tiles -> one session per view: player on top, clickable outline under it */
+:root {
+  --bg: #f4f6fa; --surface: #ffffff; --ink: #0f1f3d; --soft: #5b6884; --line: #e1e6ef;
+  --navy: #13294b; --blue: #1f5fbf; --sky: #2f8ae0; --gold: #e8aa42; --hover: #eaf1fc;
+  --shadow: 0 10px 30px rgba(19, 41, 75, .14);
+  --font: "Poppins", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0b1424; --surface: #121e33; --ink: #e8eef9; --soft: #9aa8c2; --line: #22314d;
+  --navy: #0d1d38; --blue: #5b9bf0; --sky: #6fb0ff; --gold: #f0b85a; --hover: #18284a;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .45); color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0b1424; --surface: #121e33; --ink: #e8eef9; --soft: #9aa8c2; --line: #22314d;
+  --navy: #0d1d38; --blue: #5b9bf0; --sky: #6fb0ff; --gold: #f0b85a; --hover: #18284a;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .45); color-scheme: dark }
+* { box-sizing: border-box }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.5 }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 0 64px }
+header.top { background: linear-gradient(120deg, #13294b, #1f5fbf 70%, #2f8ae0); color: #fff; padding-top: env(safe-area-inset-top, 0px) }
+header.top .bar { max-width: 1180px; margin: 0 auto; padding: 18px 20px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap }
+.brand { display: flex; flex-direction: column; line-height: 1.15 }
+.brand .who { font-weight: 300; font-size: 14px; opacity: .85 }
+.brand .what { font-weight: 600; font-size: 22px; letter-spacing: .01em }
+nav a { color: #fff; text-decoration: none; font-weight: 500; font-size: 15px; padding: 8px 14px; border-radius: 10px; background: rgba(255,255,255,.12) }
+nav a:hover, nav a:focus-visible { background: rgba(255,255,255,.24); outline: none }
+/* hub */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 22px; padding-top: 28px }
+.tile { display: block; text-decoration: none; color: inherit; background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); transition: transform .15s ease, box-shadow .15s ease }
+.tile:hover, .tile:focus-visible { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(31, 95, 191, .28); outline: none }
+.tile:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px }
+.tile .img { aspect-ratio: 16 / 9; background: var(--navy); overflow: hidden }
+.tile img { width: 100%; height: 100%; object-fit: cover; display: block }
+.tile .name { padding: 14px 16px 16px; font-weight: 600; font-size: 16px; line-height: 1.3; text-wrap: balance }
+/* session */
+.session { padding-top: 26px; display: grid; gap: 22px; max-width: 960px; margin: 0 auto }
+.session h1 { margin: 0; font-size: 26px; font-weight: 600; line-height: 1.25; text-wrap: balance; color: var(--ink) }
+.player { position: relative; aspect-ratio: 16 / 9; width: 100%; max-width: 100%; background: #000; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow) }
+.player iframe, .player > div { position: absolute; inset: 0; width: 100%; height: 100% }
+.outline { display: grid; gap: 6px; padding: 0; margin: 0; list-style: none }
+.sec { background: var(--surface); border-radius: 12px; padding: 6px; box-shadow: 0 1px 0 var(--line) }
+.sec.on { box-shadow: 0 0 0 2px var(--blue) }
+.jump { display: flex; gap: 14px; align-items: baseline; width: 100%; text-align: left; background: none; border: 0; color: var(--ink); font: inherit; padding: 10px 12px; border-radius: 9px; cursor: pointer }
+.jump:hover, .jump:focus-visible { background: var(--hover); outline: none }
+.jump .t { flex: 0 0 auto; min-width: 58px; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--blue); font-size: 14px }
+.jump .x { min-width: 0 }
+.sec > .jump .x { font-weight: 600; font-size: 16px }
+.pts { list-style: none; margin: 0; padding: 0 0 4px 0 }
+.pts .jump { padding: 7px 12px 7px 12px }
+.pts .jump .t { font-weight: 500; color: var(--soft) }
+.pts .jump .x { color: var(--ink); font-size: 14.5px }
+.pts .jump:hover .t { color: var(--blue) }
+@media (max-width: 560px) {
+  .session h1 { font-size: 21px }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px }
+  .tile .name { font-size: 14px; padding: 10px 12px 12px }
+  .jump .t { min-width: 48px }
+}
+@media (prefers-reduced-motion: reduce) { .tile { transition: none } .tile:hover { transform: none } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="bar">
+    <div class="brand"><span class="who">Aaron Prickel · Mastery</span><span class="what">Building a Fanbase</span></div>
+  </div>
+</header>
+<main class="wrap">
+  <section class="session">
+    <div class="player"><div id="yt"></div></div>
+    <ol class="outline"><li class="sec" data-s="0"><button class="jump" data-s="0"><span class="t">0:00</span><span class="x">Why accounts are really lost</span></button><ul class="pts"><li><button class="jump" data-s="19"><span class="t">0:19</span><span class="x">Know when to walk away and who you are playing against.</span></button></li><li><button class="jump" data-s="51"><span class="t">0:51</span><span class="x">Top loss reasons: bad product, slow delivery, and a changing of the guard.</span></button></li></ul></li>
+<li class="sec" data-s="63"><button class="jump" data-s="63"><span class="t">1:03</span><span class="x">One contact means one risk</span></button><ul class="pts"><li><button class="jump" data-s="79"><span class="t">1:19</span><span class="x">With a single main contact, you re-sell yourself every time they leave.</span></button></li><li><button class="jump" data-s="92"><span class="t">1:32</span><span class="x">Ask: why aren&#x27;t people at that company selling for you?</span></button></li></ul></li>
+<li class="sec" data-s="103"><button class="jump" data-s="103"><span class="t">1:43</span><span class="x">Nine box theory</span></button><ul class="pts"><li><button class="jump" data-s="103"><span class="t">1:43</span><span class="x">Know your main contact, their boss, and the peers lateral left and right.</span></button></li><li><button class="jump" data-s="139"><span class="t">2:19</span><span class="x">Example: VP of sales in the middle, CEO above, CFO and CMO beside.</span></button></li></ul></li>
+<li class="sec" data-s="160"><button class="jump" data-s="160"><span class="t">2:40</span><span class="x">Referrals and rewarding clients</span></button><ul class="pts"><li><button class="jump" data-s="168"><span class="t">2:48</span><span class="x">Give people shortcuts and make their life easy.</span></button></li><li><button class="jump" data-s="177"><span class="t">2:57</span><span class="x">Reward clients, not prospects, with tickets and events.</span></button></li></ul></li>
+<li class="sec" data-s="196"><button class="jump" data-s="196"><span class="t">3:16</span><span class="x">Caesar meetings and staying visible</span></button><ul class="pts"><li><button class="jump" data-s="196"><span class="t">3:16</span><span class="x">Chief Executive Semi-Annual Review: four key pieces to cover.</span></button></li><li><button class="jump" data-s="207"><span class="t">3:27</span><span class="x">Thank them, ask what gets you fired, other opportunities, money back in pocket.</span></button></li><li><button class="jump" data-s="224"><span class="t">3:44</span><span class="x">Be seen: don&#x27;t hide behind email; virtual calls count too.</span></button></li></ul></li>
+<li class="sec" data-s="243"><button class="jump" data-s="243"><span class="t">4:03</span><span class="x">Positive focus and feeding champions</span></button><ul class="pts"><li><button class="jump" data-s="243"><span class="t">4:03</span><span class="x">Have clients share positive focus; be someone they enjoy being around.</span></button></li><li><button class="jump" data-s="272"><span class="t">4:32</span><span class="x">Feed champions insight that makes them look smart to leadership.</span></button></li><li><button class="jump" data-s="304"><span class="t">5:04</span><span class="x">Master departmental pain: accounting, operations, warehouse.</span></button></li></ul></li></ol>
+  </section>
+</main>
+<script>
+let player = null, ticker = null;
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('yt', { videoId: '1tuUqYj7t4o', host: 'https://www.youtube-nocookie.com',
+    playerVars: { rel: 0, playsinline: 1, origin: location.origin },
+    events: { onReady: () => { ticker = setInterval(mark, 1000); } } });
+}
+function mark() {
+  if (!player || !player.getCurrentTime) return;
+  const now = player.getCurrentTime(); let cur = -1;
+  const secs = document.querySelectorAll('.sec');
+  secs.forEach((el, i) => { if (+el.dataset.s <= now + 0.5) cur = i; });
+  secs.forEach((el, i) => el.classList.toggle('on', i === cur));
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('.jump'); if (!b) return;
+  if (player && player.seekTo) { player.seekTo(+b.dataset.s, true); player.playVideo(); }
+  const box = document.querySelector('.player');
+  if (box.getBoundingClientRect().top < 0) box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>

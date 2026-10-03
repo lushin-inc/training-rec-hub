@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Awkward Sales Transitions | AP Mastery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+<style>
+/* Layout: hub of slide-cover tiles -> one session per view: player on top, clickable outline under it */
+:root {
+  --bg: #f4f6fa; --surface: #ffffff; --ink: #0f1f3d; --soft: #5b6884; --line: #e1e6ef;
+  --navy: #13294b; --blue: #1f5fbf; --sky: #2f8ae0; --gold: #e8aa42; --hover: #eaf1fc;
+  --shadow: 0 10px 30px rgba(19, 41, 75, .14);
+  --font: "Poppins", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0b1424; --surface: #121e33; --ink: #e8eef9; --soft: #9aa8c2; --line: #22314d;
+  --navy: #0d1d38; --blue: #5b9bf0; --sky: #6fb0ff; --gold: #f0b85a; --hover: #18284a;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .45); color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0b1424; --surface: #121e33; --ink: #e8eef9; --soft: #9aa8c2; --line: #22314d;
+  --navy: #0d1d38; --blue: #5b9bf0; --sky: #6fb0ff; --gold: #f0b85a; --hover: #18284a;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .45); color-scheme: dark }
+* { box-sizing: border-box }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.5 }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 0 64px }
+header.top { background: linear-gradient(120deg, #13294b, #1f5fbf 70%, #2f8ae0); color: #fff; padding-top: env(safe-area-inset-top, 0px) }
+header.top .bar { max-width: 1180px; margin: 0 auto; padding: 18px 20px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap }
+.brand { display: flex; flex-direction: column; line-height: 1.15 }
+.brand .who { font-weight: 300; font-size: 14px; opacity: .85 }
+.brand .what { font-weight: 600; font-size: 22px; letter-spacing: .01em }
+nav a { color: #fff; text-decoration: none; font-weight: 500; font-size: 15px; padding: 8px 14px; border-radius: 10px; background: rgba(255,255,255,.12) }
+nav a:hover, nav a:focus-visible { background: rgba(255,255,255,.24); outline: none }
+/* hub */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 22px; padding-top: 28px }
+.tile { display: block; text-decoration: none; color: inherit; background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); transition: transform .15s ease, box-shadow .15s ease }
+.tile:hover, .tile:focus-visible { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(31, 95, 191, .28); outline: none }
+.tile:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px }
+.tile .img { aspect-ratio: 16 / 9; background: var(--navy); overflow: hidden }
+.tile img { width: 100%; height: 100%; object-fit: cover; display: block }
+.tile .name { padding: 14px 16px 16px; font-weight: 600; font-size: 16px; line-height: 1.3; text-wrap: balance }
+/* session */
+.session { padding-top: 26px; display: grid; gap: 22px; max-width: 960px; margin: 0 auto }
+.session h1 { margin: 0; font-size: 26px; font-weight: 600; line-height: 1.25; text-wrap: balance; color: var(--ink) }
+.player { position: relative; aspect-ratio: 16 / 9; width: 100%; max-width: 100%; background: #000; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow) }
+.player iframe, .player > div { position: absolute; inset: 0; width: 100%; height: 100% }
+.outline { display: grid; gap: 6px; padding: 0; margin: 0; list-style: none }
+.sec { background: var(--surface); border-radius: 12px; padding: 6px; box-shadow: 0 1px 0 var(--line) }
+.sec.on { box-shadow: 0 0 0 2px var(--blue) }
+.jump { display: flex; gap: 14px; align-items: baseline; width: 100%; text-align: left; background: none; border: 0; color: var(--ink); font: inherit; padding: 10px 12px; border-radius: 9px; cursor: pointer }
+.jump:hover, .jump:focus-visible { background: var(--hover); outline: none }
+.jump .t { flex: 0 0 auto; min-width: 58px; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--blue); font-size: 14px }
+.jump .x { min-width: 0 }
+.sec > .jump .x { font-weight: 600; font-size: 16px }
+.pts { list-style: none; margin: 0; padding: 0 0 4px 0 }
+.pts .jump { padding: 7px 12px 7px 12px }
+.pts .jump .t { font-weight: 500; color: var(--soft) }
+.pts .jump .x { color: var(--ink); font-size: 14.5px }
+.pts .jump:hover .t { color: var(--blue) }
+@media (max-width: 560px) {
+  .session h1 { font-size: 21px }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px }
+  .tile .name { font-size: 14px; padding: 10px 12px 12px }
+  .jump .t { min-width: 48px }
+}
+@media (prefers-reduced-motion: reduce) { .tile { transition: none } .tile:hover { transform: none } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="bar">
+    <div class="brand"><span class="who">Aaron Prickel · Mastery</span><span class="what">Awkward Sales Transitions</span></div>
+  </div>
+</header>
+<main class="wrap">
+  <section class="session">
+    <div class="player"><div id="yt"></div></div>
+    <ol class="outline"><li class="sec" data-s="0"><button class="jump" data-s="0"><span class="t">0:00</span><span class="x">Why transitions feel clunky</span></button><ul class="pts"><li><button class="jump" data-s="66"><span class="t">1:06</span><span class="x">Sellers talk differently on sales calls than they do with friends.</span></button></li><li><button class="jump" data-s="146"><span class="t">2:26</span><span class="x">Understand each milestone&#x27;s intention, not just the technique.</span></button></li></ul></li>
+<li class="sec" data-s="190"><button class="jump" data-s="190"><span class="t">3:10</span><span class="x">Selling with a team</span></button><ul class="pts"><li><button class="jump" data-s="198"><span class="t">3:18</span><span class="x">Pick a captain of the conversation; agree verbal and non-verbal handoffs.</span></button></li><li><button class="jump" data-s="256"><span class="t">4:16</span><span class="x">Story: telling a manufacturer rep to nod until invited to speak.</span></button></li><li><button class="jump" data-s="299"><span class="t">4:59</span><span class="x">Pre-warn engineers you may ask a question back before answering.</span></button></li></ul></li>
+<li class="sec" data-s="318"><button class="jump" data-s="318"><span class="t">5:18</span><span class="x">How milestones connect</span></button><ul class="pts"><li><button class="jump" data-s="326"><span class="t">5:26</span><span class="x">Stronger pain means bigger budget; agenda items are usually pain points.</span></button></li><li><button class="jump" data-s="428"><span class="t">7:08</span><span class="x">Upfront contract flows to pain, budget, decision, then fulfillment.</span></button></li><li><button class="jump" data-s="507"><span class="t">8:27</span><span class="x">Sellers fail to listen because they&#x27;re waiting for their next question.</span></button></li></ul></li>
+<li class="sec" data-s="555"><button class="jump" data-s="555"><span class="t">9:15</span><span class="x">Prospecting call transitions</span></button><ul class="pts"><li><button class="jump" data-s="618"><span class="t">10:18</span><span class="x">Cold call: ask in the negative, then a 30-second interview as the contract.</span></button></li><li><button class="jump" data-s="674"><span class="t">11:14</span><span class="x">Ask: are the items you shared important enough to continue a conversation?</span></button></li><li><button class="jump" data-s="740"><span class="t">12:20</span><span class="x">&quot;One last question before I let you go&quot; lowers defenses.</span></button></li><li><button class="jump" data-s="761"><span class="t">12:41</span><span class="x">Future-pace: pretend it&#x27;s 12 months from now and things are smoother.</span></button></li></ul></li>
+<li class="sec" data-s="819"><button class="jump" data-s="819"><span class="t">13:39</span><span class="x">Get them talking</span></button><ul class="pts"><li><button class="jump" data-s="827"><span class="t">13:47</span><span class="x">The goal is getting people talking to build emotional involvement.</span></button></li><li><button class="jump" data-s="882"><span class="t">14:42</span><span class="x">Awkward Zoom wait: open with &quot;crazy week this week.&quot;</span></button></li><li><button class="jump" data-s="973"><span class="t">16:13</span><span class="x">Be interested, not interesting; reverse their answers.</span></button></li></ul></li>
+<li class="sec" data-s="1048"><button class="jump" data-s="1048"><span class="t">17:28</span><span class="x">Aaronisms and framework</span></button><ul class="pts"><li><button class="jump" data-s="1048"><span class="t">17:28</span><span class="x">Say &quot;okay&quot; or &quot;let&#x27;s do this&quot; to trigger your own transition.</span></button></li><li><button class="jump" data-s="1118"><span class="t">18:38</span><span class="x">Aim to be well understood, not just well trained.</span></button></li><li><button class="jump" data-s="1169"><span class="t">19:29</span><span class="x">Money transition: let&#x27;s talk dollars before we both get too excited.</span></button></li></ul></li>
+<li class="sec" data-s="1203"><button class="jump" data-s="1203"><span class="t">20:03</span><span class="x">Front-load the decision step</span></button><ul class="pts"><li><button class="jump" data-s="1211"><span class="t">20:11</span><span class="x">The decision step is criteria, process, and timeline, and can be front-loaded.</span></button></li><li><button class="jump" data-s="1270"><span class="t">21:10</span><span class="x">Ask in pain: if the president were here, what would they say?</span></button></li><li><button class="jump" data-s="1290"><span class="t">21:30</span><span class="x">Reset the upfront contract to bring in the decision maker.</span></button></li><li><button class="jump" data-s="1323"><span class="t">22:03</span><span class="x">Your presentation and proposal are leverage; don&#x27;t give them away early.</span></button></li></ul></li>
+<li class="sec" data-s="1401"><button class="jump" data-s="1401"><span class="t">23:21</span><span class="x">Money and competition questions</span></button><ul class="pts"><li><button class="jump" data-s="1401"><span class="t">23:21</span><span class="x">Flinch on money after pain; decision step up front, budget not.</span></button></li><li><button class="jump" data-s="1481"><span class="t">24:41</span><span class="x">Ask &quot;Am I your first conversation?&quot; instead of &quot;who else?&quot;</span></button></li><li><button class="jump" data-s="1525"><span class="t">25:25</span><span class="x">Follow with &quot;So what does that tell you?&quot;</span></button></li></ul></li>
+<li class="sec" data-s="1582"><button class="jump" data-s="1582"><span class="t">26:22</span><span class="x">Presentation and post-sell</span></button><ul class="pts"><li><button class="jump" data-s="1591"><span class="t">26:31</span><span class="x">Reset expectations before you present.</span></button></li><li><button class="jump" data-s="1630"><span class="t">27:10</span><span class="x">Post-sell is a dress rehearsal for future scenarios.</span></button></li><li><button class="jump" data-s="1664"><span class="t">27:44</span><span class="x">Ask them to judge you on how you respond to a hiccup.</span></button></li><li><button class="jump" data-s="1720"><span class="t">28:40</span><span class="x">People agree to more in the engagement phase than after the marriage phase.</span></button></li></ul></li>
+<li class="sec" data-s="1792"><button class="jump" data-s="1792"><span class="t">29:52</span><span class="x">Upsell and referral transitions</span></button><ul class="pts"><li><button class="jump" data-s="1806"><span class="t">30:06</span><span class="x">Be transparent: put on your sales hat with an old contact.</span></button></li><li><button class="jump" data-s="1863"><span class="t">31:03</span><span class="x">Ask the client: &quot;Micah needs to know me; can you connect us?&quot;</span></button></li><li><button class="jump" data-s="1943"><span class="t">32:23</span><span class="x">Use CAPS: characteristics, alternatives, pains, symptoms, to describe who you want.</span></button></li></ul></li>
+<li class="sec" data-s="2047"><button class="jump" data-s="2047"><span class="t">34:07</span><span class="x">Referral calls and wrap-up</span></button><ul class="pts"><li><button class="jump" data-s="2070"><span class="t">34:30</span><span class="x">Referral opener: how do you know them, and what led you to think we should talk?</span></button></li><li><button class="jump" data-s="2112"><span class="t">35:12</span><span class="x">Watch the clock and set clear next steps before time runs out.</span></button></li><li><button class="jump" data-s="2131"><span class="t">35:31</span><span class="x">Interrupt a tangent with &quot;speaking of...&quot; and take it back over.</span></button></li></ul></li></ol>
+  </section>
+</main>
+<script>
+let player = null, ticker = null;
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('yt', { videoId: 'cmTOfqRa1d8', host: 'https://www.youtube-nocookie.com',
+    playerVars: { rel: 0, playsinline: 1, origin: location.origin },
+    events: { onReady: () => { ticker = setInterval(mark, 1000); } } });
+}
+function mark() {
+  if (!player || !player.getCurrentTime) return;
+  const now = player.getCurrentTime(); let cur = -1;
+  const secs = document.querySelectorAll('.sec');
+  secs.forEach((el, i) => { if (+el.dataset.s <= now + 0.5) cur = i; });
+  secs.forEach((el, i) => el.classList.toggle('on', i === cur));
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('.jump'); if (!b) return;
+  if (player && player.seekTo) { player.seekTo(+b.dataset.s, true); player.playVideo(); }
+  const box = document.querySelector('.player');
+  if (box.getBoundingClientRect().top < 0) box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>

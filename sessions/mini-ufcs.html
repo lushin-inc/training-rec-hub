@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mini UFCs | AP Mastery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+<style>
+/* Layout: hub of slide-cover tiles -> one session per view: player on top, clickable outline under it */
+:root {
+  --bg: #f4f6fa; --surface: #ffffff; --ink: #0f1f3d; --soft: #5b6884; --line: #e1e6ef;
+  --navy: #13294b; --blue: #1f5fbf; --sky: #2f8ae0; --gold: #e8aa42; --hover: #eaf1fc;
+  --shadow: 0 10px 30px rgba(19, 41, 75, .14);
+  --font: "Poppins", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0b1424; --surface: #121e33; --ink: #e8eef9; --soft: #9aa8c2; --line: #22314d;
+  --navy: #0d1d38; --blue: #5b9bf0; --sky: #6fb0ff; --gold: #f0b85a; --hover: #18284a;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .45); color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0b1424; --surface: #121e33; --ink: #e8eef9; --soft: #9aa8c2; --line: #22314d;
+  --navy: #0d1d38; --blue: #5b9bf0; --sky: #6fb0ff; --gold: #f0b85a; --hover: #18284a;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .45); color-scheme: dark }
+* { box-sizing: border-box }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.5 }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 0 64px }
+header.top { background: linear-gradient(120deg, #13294b, #1f5fbf 70%, #2f8ae0); color: #fff; padding-top: env(safe-area-inset-top, 0px) }
+header.top .bar { max-width: 1180px; margin: 0 auto; padding: 18px 20px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap }
+.brand { display: flex; flex-direction: column; line-height: 1.15 }
+.brand .who { font-weight: 300; font-size: 14px; opacity: .85 }
+.brand .what { font-weight: 600; font-size: 22px; letter-spacing: .01em }
+nav a { color: #fff; text-decoration: none; font-weight: 500; font-size: 15px; padding: 8px 14px; border-radius: 10px; background: rgba(255,255,255,.12) }
+nav a:hover, nav a:focus-visible { background: rgba(255,255,255,.24); outline: none }
+/* hub */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 22px; padding-top: 28px }
+.tile { display: block; text-decoration: none; color: inherit; background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); transition: transform .15s ease, box-shadow .15s ease }
+.tile:hover, .tile:focus-visible { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(31, 95, 191, .28); outline: none }
+.tile:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px }
+.tile .img { aspect-ratio: 16 / 9; background: var(--navy); overflow: hidden }
+.tile img { width: 100%; height: 100%; object-fit: cover; display: block }
+.tile .name { padding: 14px 16px 16px; font-weight: 600; font-size: 16px; line-height: 1.3; text-wrap: balance }
+/* session */
+.session { padding-top: 26px; display: grid; gap: 22px; max-width: 960px; margin: 0 auto }
+.session h1 { margin: 0; font-size: 26px; font-weight: 600; line-height: 1.25; text-wrap: balance; color: var(--ink) }
+.player { position: relative; aspect-ratio: 16 / 9; width: 100%; max-width: 100%; background: #000; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow) }
+.player iframe, .player > div { position: absolute; inset: 0; width: 100%; height: 100% }
+.outline { display: grid; gap: 6px; padding: 0; margin: 0; list-style: none }
+.sec { background: var(--surface); border-radius: 12px; padding: 6px; box-shadow: 0 1px 0 var(--line) }
+.sec.on { box-shadow: 0 0 0 2px var(--blue) }
+.jump { display: flex; gap: 14px; align-items: baseline; width: 100%; text-align: left; background: none; border: 0; color: var(--ink); font: inherit; padding: 10px 12px; border-radius: 9px; cursor: pointer }
+.jump:hover, .jump:focus-visible { background: var(--hover); outline: none }
+.jump .t { flex: 0 0 auto; min-width: 58px; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--blue); font-size: 14px }
+.jump .x { min-width: 0 }
+.sec > .jump .x { font-weight: 600; font-size: 16px }
+.pts { list-style: none; margin: 0; padding: 0 0 4px 0 }
+.pts .jump { padding: 7px 12px 7px 12px }
+.pts .jump .t { font-weight: 500; color: var(--soft) }
+.pts .jump .x { color: var(--ink); font-size: 14.5px }
+.pts .jump:hover .t { color: var(--blue) }
+@media (max-width: 560px) {
+  .session h1 { font-size: 21px }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px }
+  .tile .name { font-size: 14px; padding: 10px 12px 12px }
+  .jump .t { min-width: 48px }
+}
+@media (prefers-reduced-motion: reduce) { .tile { transition: none } .tile:hover { transform: none } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="bar">
+    <div class="brand"><span class="who">Aaron Prickel · Mastery</span><span class="what">Mini UFCs</span></div>
+  </div>
+</header>
+<main class="wrap">
+  <section class="session">
+    <div class="player"><div id="yt"></div></div>
+    <ol class="outline"><li class="sec" data-s="0"><button class="jump" data-s="0"><span class="t">0:00</span><span class="x">Why mini up-front contracts</span></button><ul class="pts"><li><button class="jump" data-s="21"><span class="t">0:21</span><span class="x">Framing things up quickly to gain and hold attention</span></button></li><li><button class="jump" data-s="78"><span class="t">1:18</span><span class="x">Assumes you know time, agenda, outcome; mini UFCs take pressure off</span></button></li><li><button class="jump" data-s="98"><span class="t">1:38</span><span class="x">UFCs happen throughout the sales process, not just at the start</span></button></li></ul></li>
+<li class="sec" data-s="188"><button class="jump" data-s="188"><span class="t">3:08</span><span class="x">Triggers for a mini UFC</span></button><ul class="pts"><li><button class="jump" data-s="196"><span class="t">3:16</span><span class="x">Trigger: sharing info where a decision has to be made</span></button></li><li><button class="jump" data-s="243"><span class="t">4:03</span><span class="x">Other triggers: change of direction, permission to go there</span></button></li><li><button class="jump" data-s="265"><span class="t">4:25</span><span class="x">Little info, little UFC; lots of info, lots of UFC</span></button></li></ul></li>
+<li class="sec" data-s="327"><button class="jump" data-s="327"><span class="t">5:27</span><span class="x">Church story and the golden rules</span></button><ul class="pts"><li><button class="jump" data-s="345"><span class="t">5:45</span><span class="x">Pastor sets an eight-minute UFC for Giving Sunday</span></button></li><li><button class="jump" data-s="377"><span class="t">6:17</span><span class="x">Without framing a decision, info sounds like an update</span></button></li><li><button class="jump" data-s="437"><span class="t">7:17</span><span class="x">UFCs don&#x27;t compensate for people who lack commitment</span></button></li><li><button class="jump" data-s="563"><span class="t">9:23</span><span class="x">People pay more attention when they know a decision is coming</span></button></li></ul></li>
+<li class="sec" data-s="606"><button class="jump" data-s="606"><span class="t">10:06</span><span class="x">Pain, guts and permission</span></button><ul class="pts"><li><button class="jump" data-s="638"><span class="t">10:38</span><span class="x">Pain is the number one leverage point for commitment</span></button></li><li><button class="jump" data-s="680"><span class="t">11:20</span><span class="x">Use a mini UFC when you lack guts or fear upsetting someone</span></button></li><li><button class="jump" data-s="703"><span class="t">11:43</span><span class="x">Get permission before hitting a bold question</span></button></li></ul></li>
+<li class="sec" data-s="721"><button class="jump" data-s="721"><span class="t">12:01</span><span class="x">Traps we fall into</span></button><ul class="pts"><li><button class="jump" data-s="730"><span class="t">12:10</span><span class="x">Assuming they are ready for a decision</span></button></li><li><button class="jump" data-s="765"><span class="t">12:45</span><span class="x">Words are heard but not understood</span></button></li><li><button class="jump" data-s="785"><span class="t">13:05</span><span class="x">Script: can I ask you this, then get your perspective?</span></button></li><li><button class="jump" data-s="824"><span class="t">13:44</span><span class="x">Preserve the prospect&#x27;s dignity; be not okay on purpose</span></button></li></ul></li>
+<li class="sec" data-s="893"><button class="jump" data-s="893"><span class="t">14:53</span><span class="x">Caution points</span></button><ul class="pts"><li><button class="jump" data-s="905"><span class="t">15:05</span><span class="x">Don&#x27;t overdo it; after three times it gets old</span></button></li><li><button class="jump" data-s="935"><span class="t">15:35</span><span class="x">Don&#x27;t over-ask permission, especially with high D buyers</span></button></li><li><button class="jump" data-s="1051"><span class="t">17:31</span><span class="x">Too many UFCs and prospects can&#x27;t process where you are going</span></button></li></ul></li>
+<li class="sec" data-s="1093"><button class="jump" data-s="1093"><span class="t">18:13</span><span class="x">Example: the proposal request</span></button><ul class="pts"><li><button class="jump" data-s="1107"><span class="t">18:27</span><span class="x">When asked for a proposal, offer a quick talk through the dollars first</span></button></li><li><button class="jump" data-s="1193"><span class="t">19:53</span><span class="x">Script: let&#x27;s talk through what dollars look like on a high level</span></button></li><li><button class="jump" data-s="1212"><span class="t">20:12</span><span class="x">Avoid sending a proposal that blows them out of the chair</span></button></li></ul></li>
+<li class="sec" data-s="1269"><button class="jump" data-s="1269"><span class="t">21:09</span><span class="x">When they ask for pricing</span></button><ul class="pts"><li><button class="jump" data-s="1278"><span class="t">21:18</span><span class="x">Say yes, absolutely, you&#x27;ll do that; don&#x27;t resist</span></button></li><li><button class="jump" data-s="1369"><span class="t">22:49</span><span class="x">Pick up your pace, go compelling, then use not-okayness</span></button></li><li><button class="jump" data-s="1406"><span class="t">23:26</span><span class="x">Fear script: I know next to nothing and could blow you away</span></button></li></ul></li>
+<li class="sec" data-s="1450"><button class="jump" data-s="1450"><span class="t">24:10</span><span class="x">Getting information and pain step</span></button><ul class="pts"><li><button class="jump" data-s="1462"><span class="t">24:22</span><span class="x">Set expectations: it doesn&#x27;t need to be perfect, just A, B and C</span></button></li><li><button class="jump" data-s="1537"><span class="t">25:37</span><span class="x">Clients fear giving wrong info and devaluing their purchase</span></button></li><li><button class="jump" data-s="1584"><span class="t">26:24</span><span class="x">Use a mini UFC in the pain step when answers feel shallow</span></button></li><li><button class="jump" data-s="1659"><span class="t">27:39</span><span class="x">Mini UFC to get decision makers involved</span></button></li></ul></li>
+<li class="sec" data-s="1716"><button class="jump" data-s="1716"><span class="t">28:36</span><span class="x">Use minis only when needed</span></button><ul class="pts"><li><button class="jump" data-s="1716"><span class="t">28:36</span><span class="x">If the conversation flows naturally, don&#x27;t stop the train</span></button></li><li><button class="jump" data-s="1778"><span class="t">29:38</span><span class="x">Wishy-washy answer is your trigger to tighten up</span></button></li><li><button class="jump" data-s="1791"><span class="t">29:51</span><span class="x">Tool belt versus tool shed</span></button></li></ul></li>
+<li class="sec" data-s="1831"><button class="jump" data-s="1831"><span class="t">30:31</span><span class="x">Budget step and mock presentations</span></button><ul class="pts"><li><button class="jump" data-s="1831"><span class="t">30:31</span><span class="x">Before the budget step: talk time, dollars, touches before the proposal</span></button></li><li><button class="jump" data-s="1863"><span class="t">31:03</span><span class="x">Mock presentation: present without presenting</span></button></li><li><button class="jump" data-s="1894"><span class="t">31:34</span><span class="x">Script: let me share the top four ways we help clients</span></button></li></ul></li>
+<li class="sec" data-s="1962"><button class="jump" data-s="1962"><span class="t">32:42</span><span class="x">Baby steps: no, outcome, time</span></button><ul class="pts"><li><button class="jump" data-s="1975"><span class="t">32:55</span><span class="x">Start by giving permission to say no</span></button></li><li><button class="jump" data-s="2010"><span class="t">33:30</span><span class="x">Ask what they want figured out; say figure out, not decision</span></button></li><li><button class="jump" data-s="2060"><span class="t">34:20</span><span class="x">Clarify what no, no, yes means</span></button></li><li><button class="jump" data-s="2108"><span class="t">35:08</span><span class="x">Nobody cares about your agenda; ask for theirs</span></button></li><li><button class="jump" data-s="2225"><span class="t">37:05</span><span class="x">Ask: are we talking if we should, or how to make it work?</span></button></li></ul></li>
+<li class="sec" data-s="2259"><button class="jump" data-s="2259"><span class="t">37:39</span><span class="x">Protecting your time</span></button><ul class="pts"><li><button class="jump" data-s="2274"><span class="t">37:54</span><span class="x">Use time in the UFC if people talk too long</span></button></li><li><button class="jump" data-s="2321"><span class="t">38:41</span><span class="x">Lunch story: set the end time up front, e.g. out by one</span></button></li><li><button class="jump" data-s="2364"><span class="t">39:24</span><span class="x">Outcome-then-agenda or agenda-then-outcome is personal preference</span></button></li></ul></li></ol>
+  </section>
+</main>
+<script>
+let player = null, ticker = null;
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('yt', { videoId: 'G2Tj6ZaLxVo', host: 'https://www.youtube-nocookie.com',
+    playerVars: { rel: 0, playsinline: 1, origin: location.origin },
+    events: { onReady: () => { ticker = setInterval(mark, 1000); } } });
+}
+function mark() {
+  if (!player || !player.getCurrentTime) return;
+  const now = player.getCurrentTime(); let cur = -1;
+  const secs = document.querySelectorAll('.sec');
+  secs.forEach((el, i) => { if (+el.dataset.s <= now + 0.5) cur = i; });
+  secs.forEach((el, i) => el.classList.toggle('on', i === cur));
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('.jump'); if (!b) return;
+  if (player && player.seekTo) { player.seekTo(+b.dataset.s, true); player.playVideo(); }
+  const box = document.querySelector('.player');
+  if (box.getBoundingClientRect().top < 0) box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>

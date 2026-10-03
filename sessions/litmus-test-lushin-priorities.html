@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Litmus Test: Lushin Priorities | AP Mastery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+<style>
+/* Layout: hub of slide-cover tiles -> one session per view: player on top, clickable outline under it */
+:root {
+  --bg: #f4f6fa; --surface: #ffffff; --ink: #0f1f3d; --soft: #5b6884; --line: #e1e6ef;
+  --navy: #13294b; --blue: #1f5fbf; --sky: #2f8ae0; --gold: #e8aa42; --hover: #eaf1fc;
+  --shadow: 0 10px 30px rgba(19, 41, 75, .14);
+  --font: "Poppins", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0b1424; --surface: #121e33; --ink: #e8eef9; --soft: #9aa8c2; --line: #22314d;
+  --navy: #0d1d38; --blue: #5b9bf0; --sky: #6fb0ff; --gold: #f0b85a; --hover: #18284a;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .45); color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0b1424; --surface: #121e33; --ink: #e8eef9; --soft: #9aa8c2; --line: #22314d;
+  --navy: #0d1d38; --blue: #5b9bf0; --sky: #6fb0ff; --gold: #f0b85a; --hover: #18284a;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .45); color-scheme: dark }
+* { box-sizing: border-box }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.5 }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 0 64px }
+header.top { background: linear-gradient(120deg, #13294b, #1f5fbf 70%, #2f8ae0); color: #fff; padding-top: env(safe-area-inset-top, 0px) }
+header.top .bar { max-width: 1180px; margin: 0 auto; padding: 18px 20px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap }
+.brand { display: flex; flex-direction: column; line-height: 1.15 }
+.brand .who { font-weight: 300; font-size: 14px; opacity: .85 }
+.brand .what { font-weight: 600; font-size: 22px; letter-spacing: .01em }
+nav a { color: #fff; text-decoration: none; font-weight: 500; font-size: 15px; padding: 8px 14px; border-radius: 10px; background: rgba(255,255,255,.12) }
+nav a:hover, nav a:focus-visible { background: rgba(255,255,255,.24); outline: none }
+/* hub */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 22px; padding-top: 28px }
+.tile { display: block; text-decoration: none; color: inherit; background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); transition: transform .15s ease, box-shadow .15s ease }
+.tile:hover, .tile:focus-visible { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(31, 95, 191, .28); outline: none }
+.tile:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px }
+.tile .img { aspect-ratio: 16 / 9; background: var(--navy); overflow: hidden }
+.tile img { width: 100%; height: 100%; object-fit: cover; display: block }
+.tile .name { padding: 14px 16px 16px; font-weight: 600; font-size: 16px; line-height: 1.3; text-wrap: balance }
+/* session */
+.session { padding-top: 26px; display: grid; gap: 22px; max-width: 960px; margin: 0 auto }
+.session h1 { margin: 0; font-size: 26px; font-weight: 600; line-height: 1.25; text-wrap: balance; color: var(--ink) }
+.player { position: relative; aspect-ratio: 16 / 9; width: 100%; max-width: 100%; background: #000; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow) }
+.player iframe, .player > div { position: absolute; inset: 0; width: 100%; height: 100% }
+.outline { display: grid; gap: 6px; padding: 0; margin: 0; list-style: none }
+.sec { background: var(--surface); border-radius: 12px; padding: 6px; box-shadow: 0 1px 0 var(--line) }
+.sec.on { box-shadow: 0 0 0 2px var(--blue) }
+.jump { display: flex; gap: 14px; align-items: baseline; width: 100%; text-align: left; background: none; border: 0; color: var(--ink); font: inherit; padding: 10px 12px; border-radius: 9px; cursor: pointer }
+.jump:hover, .jump:focus-visible { background: var(--hover); outline: none }
+.jump .t { flex: 0 0 auto; min-width: 58px; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--blue); font-size: 14px }
+.jump .x { min-width: 0 }
+.sec > .jump .x { font-weight: 600; font-size: 16px }
+.pts { list-style: none; margin: 0; padding: 0 0 4px 0 }
+.pts .jump { padding: 7px 12px 7px 12px }
+.pts .jump .t { font-weight: 500; color: var(--soft) }
+.pts .jump .x { color: var(--ink); font-size: 14.5px }
+.pts .jump:hover .t { color: var(--blue) }
+@media (max-width: 560px) {
+  .session h1 { font-size: 21px }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px }
+  .tile .name { font-size: 14px; padding: 10px 12px 12px }
+  .jump .t { min-width: 48px }
+}
+@media (prefers-reduced-motion: reduce) { .tile { transition: none } .tile:hover { transform: none } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="bar">
+    <div class="brand"><span class="who">Aaron Prickel · Mastery</span><span class="what">Litmus Test: Lushin Priorities</span></div>
+  </div>
+</header>
+<main class="wrap">
+  <section class="session">
+    <div class="player"><div id="yt"></div></div>
+    <ol class="outline"><li class="sec" data-s="0"><button class="jump" data-s="0"><span class="t">0:00</span><span class="x">The Priorities Litmus Test</span></button><ul class="pts"><li><button class="jump" data-s="11"><span class="t">0:11</span><span class="x">Priorities are the framework for 2026</span></button></li><li><button class="jump" data-s="40"><span class="t">0:40</span><span class="x">First priority: fix your buy cycle</span></button></li></ul></li>
+<li class="sec" data-s="50"><button class="jump" data-s="50"><span class="t">0:50</span><span class="x">Buy Cycle and Over-Presenting</span></button><ul class="pts"><li><button class="jump" data-s="64"><span class="t">1:04</span><span class="x">Your personal buying habits shape what you accept from prospects</span></button></li><li><button class="jump" data-s="108"><span class="t">1:48</span><span class="x">Story: she over-presented; take the yes and stop talking</span></button></li><li><button class="jump" data-s="148"><span class="t">2:28</span><span class="x">Don&#x27;t pitch; have a conversation about what&#x27;s compelling</span></button></li></ul></li>
+<li class="sec" data-s="224"><button class="jump" data-s="224"><span class="t">3:44</span><span class="x">The 30-Second Commercial</span></button><ul class="pts"><li><button class="jump" data-s="224"><span class="t">3:44</span><span class="x">Portray the behavior you want prospects to show</span></button></li><li><button class="jump" data-s="278"><span class="t">4:38</span><span class="x">Frame: three pain points, with a mini up-front contract</span></button></li><li><button class="jump" data-s="295"><span class="t">4:55</span><span class="x">Typically we help contractors who say A, B, or C</span></button></li></ul></li>
+<li class="sec" data-s="321"><button class="jump" data-s="321"><span class="t">5:21</span><span class="x">Going Deaf: Don&#x27;t Eat the Marshmallow</span></button><ul class="pts"><li><button class="jump" data-s="339"><span class="t">5:39</span><span class="x">Going deaf: respond with &#x27;I&#x27;m sorry, what&#x27;s that?&#x27;</span></button></li><li><button class="jump" data-s="386"><span class="t">6:26</span><span class="x">Don&#x27;t jump in to fix; let it sit and ask about it</span></button></li></ul></li>
+<li class="sec" data-s="423"><button class="jump" data-s="423"><span class="t">7:03</span><span class="x">Specific Goals and Outcomes</span></button><ul class="pts"><li><button class="jump" data-s="435"><span class="t">7:15</span><span class="x">Define success for the sprint; &#x27;build more relationships&#x27; is vague</span></button></li><li><button class="jump" data-s="464"><span class="t">7:44</span><span class="x">No goals saying more or less; clarity drives strategy</span></button></li></ul></li>
+<li class="sec" data-s="503"><button class="jump" data-s="503"><span class="t">8:23</span><span class="x">Being Not Okay on Purpose</span></button><ul class="pts"><li><button class="jump" data-s="503"><span class="t">8:23</span><span class="x">Struggle on purpose and people rescue you</span></button></li><li><button class="jump" data-s="538"><span class="t">8:58</span><span class="x">Four times to be not okay; first five minutes only</span></button></li><li><button class="jump" data-s="564"><span class="t">9:24</span><span class="x">Pete&#x27;s story: struggling for 60 minutes lost credibility</span></button></li><li><button class="jump" data-s="649"><span class="t">10:49</span><span class="x">Use for tough questions, timid prospects, and stalled deals</span></button></li></ul></li>
+<li class="sec" data-s="767"><button class="jump" data-s="767"><span class="t">12:47</span><span class="x">Up-Front Contracts Made Simple</span></button><ul class="pts"><li><button class="jump" data-s="767"><span class="t">12:47</span><span class="x">You set up-front contracts with friends all the time</span></button></li><li><button class="jump" data-s="810"><span class="t">13:30</span><span class="x">Frame the call: no harm, no foul</span></button></li><li><button class="jump" data-s="857"><span class="t">14:17</span><span class="x">Get their agenda, not yours</span></button></li><li><button class="jump" data-s="916"><span class="t">15:16</span><span class="x">Ninety percent of coaching calls are up-front contracts and pain</span></button></li></ul></li>
+<li class="sec" data-s="938"><button class="jump" data-s="938"><span class="t">15:38</span><span class="x">Pain: Know When to Stop</span></button><ul class="pts"><li><button class="jump" data-s="947"><span class="t">15:47</span><span class="x">A great pain step can cover up sloppy later steps</span></button></li><li><button class="jump" data-s="965"><span class="t">16:05</span><span class="x">Story: too much pain and the prospect never came back</span></button></li><li><button class="jump" data-s="1059"><span class="t">17:39</span><span class="x">Problem, why, impact, context, emotion; stop when impact is big</span></button></li></ul></li>
+<li class="sec" data-s="1097"><button class="jump" data-s="1097"><span class="t">18:17</span><span class="x">Reverse Questions Like Great Servers</span></button><ul class="pts"><li><button class="jump" data-s="1106"><span class="t">18:26</span><span class="x">Good servers reverse the question; don&#x27;t recite the menu</span></button></li><li><button class="jump" data-s="1162"><span class="t">19:22</span><span class="x">Diagnose and prescribe once the x-ray is complete</span></button></li><li><button class="jump" data-s="1199"><span class="t">19:59</span><span class="x">Reversing is about getting to the truth, not dodging</span></button></li></ul></li>
+<li class="sec" data-s="1227"><button class="jump" data-s="1227"><span class="t">20:27</span><span class="x">Outcome Focus Beats Info Requests</span></button><ul class="pts"><li><button class="jump" data-s="1236"><span class="t">20:36</span><span class="x">Product-focused commercials get &#x27;just leave me information&#x27;</span></button></li><li><button class="jump" data-s="1285"><span class="t">21:25</span><span class="x">Info requests reveal blow-offs versus people who can&#x27;t ask</span></button></li></ul></li>
+<li class="sec" data-s="1332"><button class="jump" data-s="1332"><span class="t">22:12</span><span class="x">Interest vs Commitment</span></button><ul class="pts"><li><button class="jump" data-s="1332"><span class="t">22:12</span><span class="x">Sellers confuse interest with commitment; bills are paid by commitment</span></button></li><li><button class="jump" data-s="1398"><span class="t">23:18</span><span class="x">Test commitment: do you believe this is critical enough to act?</span></button></li><li><button class="jump" data-s="1412"><span class="t">23:32</span><span class="x">Interested is a soft out</span></button></li></ul></li>
+<li class="sec" data-s="1439"><button class="jump" data-s="1439"><span class="t">23:59</span><span class="x">Impact Over Time</span></button><ul class="pts"><li><button class="jump" data-s="1439"><span class="t">23:59</span><span class="x">Brain surgeon vs landscaper: both 10 minutes</span></button></li><li><button class="jump" data-s="1506"><span class="t">25:06</span><span class="x">Clients pay for results and impact, not time</span></button></li><li><button class="jump" data-s="1576"><span class="t">26:16</span><span class="x">Top earners get people to move; sell the decision, not the hows</span></button></li></ul></li>
+<li class="sec" data-s="1614"><button class="jump" data-s="1614"><span class="t">26:54</span><span class="x">Conviction and Rearview Mirror Syndrome</span></button><ul class="pts"><li><button class="jump" data-s="1614"><span class="t">26:54</span><span class="x">Conviction sells: a firmly held belief</span></button></li><li><button class="jump" data-s="1657"><span class="t">27:37</span><span class="x">Rearview mirror syndrome: too much looking back</span></button></li><li><button class="jump" data-s="1733"><span class="t">28:53</span><span class="x">The person who cares the least wins; don&#x27;t be starving</span></button></li></ul></li>
+<li class="sec" data-s="1804"><button class="jump" data-s="1804"><span class="t">30:04</span><span class="x">Curiosity and Process</span></button><ul class="pts"><li><button class="jump" data-s="1816"><span class="t">30:16</span><span class="x">Genuine curiosity beats a list of ten questions</span></button></li><li><button class="jump" data-s="1868"><span class="t">31:08</span><span class="x">Write down your milestones; process takes thinking out of selling</span></button></li><li><button class="jump" data-s="1983"><span class="t">33:03</span><span class="x">Find your own voice for each milestone; stop winging it</span></button></li><li><button class="jump" data-s="2056"><span class="t">34:16</span><span class="x">Recap: buy cycle, reversing, commercial, process</span></button></li></ul></li></ol>
+  </section>
+</main>
+<script>
+let player = null, ticker = null;
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('yt', { videoId: 'vBcMZ42ejHg', host: 'https://www.youtube-nocookie.com',
+    playerVars: { rel: 0, playsinline: 1, origin: location.origin },
+    events: { onReady: () => { ticker = setInterval(mark, 1000); } } });
+}
+function mark() {
+  if (!player || !player.getCurrentTime) return;
+  const now = player.getCurrentTime(); let cur = -1;
+  const secs = document.querySelectorAll('.sec');
+  secs.forEach((el, i) => { if (+el.dataset.s <= now + 0.5) cur = i; });
+  secs.forEach((el, i) => el.classList.toggle('on', i === cur));
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('.jump'); if (!b) return;
+  if (player && player.seekTo) { player.seekTo(+b.dataset.s, true); player.playVideo(); }
+  const box = document.querySelector('.player');
+  if (box.getBoundingClientRect().top < 0) box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>

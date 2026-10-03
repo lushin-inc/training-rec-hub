@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Overcoming Call Reluctancy | AP Mastery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+<style>
+/* Layout: hub of slide-cover tiles -> one session per view: player on top, clickable outline under it */
+:root {
+  --bg: #f4f6fa; --surface: #ffffff; --ink: #0f1f3d; --soft: #5b6884; --line: #e1e6ef;
+  --navy: #13294b; --blue: #1f5fbf; --sky: #2f8ae0; --gold: #e8aa42; --hover: #eaf1fc;
+  --shadow: 0 10px 30px rgba(19, 41, 75, .14);
+  --font: "Poppins", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0b1424; --surface: #121e33; --ink: #e8eef9; --soft: #9aa8c2; --line: #22314d;
+  --navy: #0d1d38; --blue: #5b9bf0; --sky: #6fb0ff; --gold: #f0b85a; --hover: #18284a;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .45); color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0b1424; --surface: #121e33; --ink: #e8eef9; --soft: #9aa8c2; --line: #22314d;
+  --navy: #0d1d38; --blue: #5b9bf0; --sky: #6fb0ff; --gold: #f0b85a; --hover: #18284a;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .45); color-scheme: dark }
+* { box-sizing: border-box }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.5 }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 0 64px }
+header.top { background: linear-gradient(120deg, #13294b, #1f5fbf 70%, #2f8ae0); color: #fff; padding-top: env(safe-area-inset-top, 0px) }
+header.top .bar { max-width: 1180px; margin: 0 auto; padding: 18px 20px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap }
+.brand { display: flex; flex-direction: column; line-height: 1.15 }
+.brand .who { font-weight: 300; font-size: 14px; opacity: .85 }
+.brand .what { font-weight: 600; font-size: 22px; letter-spacing: .01em }
+nav a { color: #fff; text-decoration: none; font-weight: 500; font-size: 15px; padding: 8px 14px; border-radius: 10px; background: rgba(255,255,255,.12) }
+nav a:hover, nav a:focus-visible { background: rgba(255,255,255,.24); outline: none }
+/* hub */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 22px; padding-top: 28px }
+.tile { display: block; text-decoration: none; color: inherit; background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); transition: transform .15s ease, box-shadow .15s ease }
+.tile:hover, .tile:focus-visible { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(31, 95, 191, .28); outline: none }
+.tile:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px }
+.tile .img { aspect-ratio: 16 / 9; background: var(--navy); overflow: hidden }
+.tile img { width: 100%; height: 100%; object-fit: cover; display: block }
+.tile .name { padding: 14px 16px 16px; font-weight: 600; font-size: 16px; line-height: 1.3; text-wrap: balance }
+/* session */
+.session { padding-top: 26px; display: grid; gap: 22px; max-width: 960px; margin: 0 auto }
+.session h1 { margin: 0; font-size: 26px; font-weight: 600; line-height: 1.25; text-wrap: balance; color: var(--ink) }
+.player { position: relative; aspect-ratio: 16 / 9; width: 100%; max-width: 100%; background: #000; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow) }
+.player iframe, .player > div { position: absolute; inset: 0; width: 100%; height: 100% }
+.outline { display: grid; gap: 6px; padding: 0; margin: 0; list-style: none }
+.sec { background: var(--surface); border-radius: 12px; padding: 6px; box-shadow: 0 1px 0 var(--line) }
+.sec.on { box-shadow: 0 0 0 2px var(--blue) }
+.jump { display: flex; gap: 14px; align-items: baseline; width: 100%; text-align: left; background: none; border: 0; color: var(--ink); font: inherit; padding: 10px 12px; border-radius: 9px; cursor: pointer }
+.jump:hover, .jump:focus-visible { background: var(--hover); outline: none }
+.jump .t { flex: 0 0 auto; min-width: 58px; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--blue); font-size: 14px }
+.jump .x { min-width: 0 }
+.sec > .jump .x { font-weight: 600; font-size: 16px }
+.pts { list-style: none; margin: 0; padding: 0 0 4px 0 }
+.pts .jump { padding: 7px 12px 7px 12px }
+.pts .jump .t { font-weight: 500; color: var(--soft) }
+.pts .jump .x { color: var(--ink); font-size: 14.5px }
+.pts .jump:hover .t { color: var(--blue) }
+@media (max-width: 560px) {
+  .session h1 { font-size: 21px }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px }
+  .tile .name { font-size: 14px; padding: 10px 12px 12px }
+  .jump .t { min-width: 48px }
+}
+@media (prefers-reduced-motion: reduce) { .tile { transition: none } .tile:hover { transform: none } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="bar">
+    <div class="brand"><span class="who">Aaron Prickel · Mastery</span><span class="what">Overcoming Call Reluctancy</span></div>
+  </div>
+</header>
+<main class="wrap">
+  <section class="session">
+    <div class="player"><div id="yt"></div></div>
+    <ol class="outline"><li class="sec" data-s="0"><button class="jump" data-s="0"><span class="t">0:00</span><span class="x">Call reluctance is not a character flaw</span></button><ul class="pts"><li><button class="jump" data-s="9"><span class="t">0:09</span><span class="x">Shift the word from call reluctance to conversation reluctance</span></button></li><li><button class="jump" data-s="65"><span class="t">1:05</span><span class="x">Only people who never made cold calls like them</span></button></li><li><button class="jump" data-s="170"><span class="t">2:50</span><span class="x">You are one event of a thousand in someone&#x27;s day</span></button></li></ul></li>
+<li class="sec" data-s="189"><button class="jump" data-s="189"><span class="t">3:09</span><span class="x">Handling resistance when you can help</span></button><ul class="pts"><li><button class="jump" data-s="207"><span class="t">3:27</span><span class="x">Script: ever had a prospect you could help who wouldn&#x27;t let you?</span></button></li><li><button class="jump" data-s="278"><span class="t">4:38</span><span class="x">Smoke-at-3am neighbor story: you see the smoke, they don&#x27;t yet</span></button></li><li><button class="jump" data-s="342"><span class="t">5:42</span><span class="x">You can&#x27;t want to help more than they want help</span></button></li></ul></li>
+<li class="sec" data-s="351"><button class="jump" data-s="351"><span class="t">5:51</span><span class="x">Evoke the child, not the adult</span></button><ul class="pts"><li><button class="jump" data-s="351"><span class="t">5:51</span><span class="x">The more stubborn someone is, the more it must be their idea</span></button></li><li><button class="jump" data-s="369"><span class="t">6:09</span><span class="x">30-second commercials use social proof and results to evoke the child</span></button></li><li><button class="jump" data-s="435"><span class="t">7:15</span><span class="x">People buy emotionally and decide intellectually; stay out of tech specs</span></button></li></ul></li>
+<li class="sec" data-s="469"><button class="jump" data-s="469"><span class="t">7:49</span><span class="x">The types of call reluctance</span></button><ul class="pts"><li><button class="jump" data-s="495"><span class="t">8:15</span><span class="x">Over-preparation: getting ready to get ready is productive avoidance</span></button></li><li><button class="jump" data-s="533"><span class="t">8:53</span><span class="x">Hyper-pro and stage fright: fear of looking stupid or saying the wrong thing</span></button></li><li><button class="jump" data-s="588"><span class="t">9:48</span><span class="x">Role rejection: being ashamed to be in sales</span></button></li><li><button class="jump" data-s="615"><span class="t">10:15</span><span class="x">Yielder: afraid of interrupting busy people</span></button></li></ul></li>
+<li class="sec" data-s="663"><button class="jump" data-s="663"><span class="t">11:03</span><span class="x">More types: approval, friends, family</span></button><ul class="pts"><li><button class="jump" data-s="663"><span class="t">11:03</span><span class="x">Social self-consciousness: intimidated by high net worth or senior people</span></button></li><li><button class="jump" data-s="687"><span class="t">11:27</span><span class="x">Separationist fears losing friends</span></button></li><li><button class="jump" data-s="707"><span class="t">11:47</span><span class="x">Emotionally unemancipated avoids the S-word with family</span></button></li></ul></li>
+<li class="sec" data-s="770"><button class="jump" data-s="770"><span class="t">12:50</span><span class="x">Reframing the sales stigma</span></button><ul class="pts"><li><button class="jump" data-s="770"><span class="t">12:50</span><span class="x">Least trusted: used cars, home services, residential real estate, insurance</span></button></li><li><button class="jump" data-s="843"><span class="t">14:03</span><span class="x">Bad sellers make it easier to stand out when you follow them</span></button></li></ul></li>
+<li class="sec" data-s="879"><button class="jump" data-s="879"><span class="t">14:39</span><span class="x">Shifting perspective, not telling</span></button><ul class="pts"><li><button class="jump" data-s="889"><span class="t">14:49</span><span class="x">Folder analogy: help people see two by tilting their head</span></button></li><li><button class="jump" data-s="943"><span class="t">15:43</span><span class="x">Tiptoeing in because you feel like a pest is 90% of the problem</span></button></li><li><button class="jump" data-s="994"><span class="t">16:34</span><span class="x">Motorcycle story: ask what happens if you can&#x27;t sell it, don&#x27;t say no</span></button></li></ul></li>
+<li class="sec" data-s="1024"><button class="jump" data-s="1024"><span class="t">17:04</span><span class="x">Referral aversion, telephobia, coachability</span></button><ul class="pts"><li><button class="jump" data-s="1024"><span class="t">17:04</span><span class="x">Referral aversion: afraid to rock the boat</span></button></li><li><button class="jump" data-s="1059"><span class="t">17:39</span><span class="x">Telephobia: some people would rather walk in than call</span></button></li><li><button class="jump" data-s="1078"><span class="t">17:58</span><span class="x">Oppositional reflex: are you coachable or not?</span></button></li></ul></li>
+<li class="sec" data-s="1092"><button class="jump" data-s="1092"><span class="t">18:12</span><span class="x">Pick up the phone</span></button><ul class="pts"><li><button class="jump" data-s="1120"><span class="t">18:40</span><span class="x">Fundraising story: make it assumptive, ask how much, not whether</span></button></li><li><button class="jump" data-s="1161"><span class="t">19:21</span><span class="x">Cold calls are like vegetables: you just have to do them</span></button></li><li><button class="jump" data-s="1178"><span class="t">19:38</span><span class="x">Avoid asking: is this something you&#x27;d be interested in?</span></button></li><li><button class="jump" data-s="1189"><span class="t">19:49</span><span class="x">Go for appointments: is this compelling enough to talk further?</span></button></li></ul></li>
+<li class="sec" data-s="1219"><button class="jump" data-s="1219"><span class="t">20:19</span><span class="x">Set a no-goal and build conviction</span></button><ul class="pts"><li><button class="jump" data-s="1232"><span class="t">20:32</span><span class="x">Set a goal for how many no&#x27;s you&#x27;ll collect</span></button></li><li><button class="jump" data-s="1273"><span class="t">21:13</span><span class="x">Hobby exercise: you don&#x27;t take attacks on your hobby personally</span></button></li><li><button class="jump" data-s="1320"><span class="t">22:00</span><span class="x">Journal affirmations: I call total strangers and they want to talk to me</span></button></li><li><button class="jump" data-s="1404"><span class="t">23:24</span><span class="x">Confidence rides results; conviction holds steady no matter what</span></button></li></ul></li>
+<li class="sec" data-s="1516"><button class="jump" data-s="1516"><span class="t">25:16</span><span class="x">Journaling, discipline and sprints</span></button><ul class="pts"><li><button class="jump" data-s="1516"><span class="t">25:16</span><span class="x">Journaling is part of the Lushin cookbook</span></button></li><li><button class="jump" data-s="1574"><span class="t">26:14</span><span class="x">The Slight Edge: top performers do small things daily</span></button></li><li><button class="jump" data-s="1607"><span class="t">26:47</span><span class="x">Prospecting is a sprint that becomes a marathon</span></button></li><li><button class="jump" data-s="1625"><span class="t">27:05</span><span class="x">Apply it; theory feels good but application wins</span></button></li></ul></li></ol>
+  </section>
+</main>
+<script>
+let player = null, ticker = null;
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('yt', { videoId: 'fmaHeNFB-P0', host: 'https://www.youtube-nocookie.com',
+    playerVars: { rel: 0, playsinline: 1, origin: location.origin },
+    events: { onReady: () => { ticker = setInterval(mark, 1000); } } });
+}
+function mark() {
+  if (!player || !player.getCurrentTime) return;
+  const now = player.getCurrentTime(); let cur = -1;
+  const secs = document.querySelectorAll('.sec');
+  secs.forEach((el, i) => { if (+el.dataset.s <= now + 0.5) cur = i; });
+  secs.forEach((el, i) => el.classList.toggle('on', i === cur));
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('.jump'); if (!b) return;
+  if (player && player.seekTo) { player.seekTo(+b.dataset.s, true); player.playVideo(); }
+  const box = document.querySelector('.player');
+  if (box.getBoundingClientRect().top < 0) box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>

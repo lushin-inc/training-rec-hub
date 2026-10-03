@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How Do You Know You Have Enough | AP Mastery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+<style>
+/* Layout: hub of slide-cover tiles -> one session per view: player on top, clickable outline under it */
+:root {
+  --bg: #f4f6fa; --surface: #ffffff; --ink: #0f1f3d; --soft: #5b6884; --line: #e1e6ef;
+  --navy: #13294b; --blue: #1f5fbf; --sky: #2f8ae0; --gold: #e8aa42; --hover: #eaf1fc;
+  --shadow: 0 10px 30px rgba(19, 41, 75, .14);
+  --font: "Poppins", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0b1424; --surface: #121e33; --ink: #e8eef9; --soft: #9aa8c2; --line: #22314d;
+  --navy: #0d1d38; --blue: #5b9bf0; --sky: #6fb0ff; --gold: #f0b85a; --hover: #18284a;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .45); color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0b1424; --surface: #121e33; --ink: #e8eef9; --soft: #9aa8c2; --line: #22314d;
+  --navy: #0d1d38; --blue: #5b9bf0; --sky: #6fb0ff; --gold: #f0b85a; --hover: #18284a;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .45); color-scheme: dark }
+* { box-sizing: border-box }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.5 }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 0 64px }
+header.top { background: linear-gradient(120deg, #13294b, #1f5fbf 70%, #2f8ae0); color: #fff; padding-top: env(safe-area-inset-top, 0px) }
+header.top .bar { max-width: 1180px; margin: 0 auto; padding: 18px 20px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap }
+.brand { display: flex; flex-direction: column; line-height: 1.15 }
+.brand .who { font-weight: 300; font-size: 14px; opacity: .85 }
+.brand .what { font-weight: 600; font-size: 22px; letter-spacing: .01em }
+nav a { color: #fff; text-decoration: none; font-weight: 500; font-size: 15px; padding: 8px 14px; border-radius: 10px; background: rgba(255,255,255,.12) }
+nav a:hover, nav a:focus-visible { background: rgba(255,255,255,.24); outline: none }
+/* hub */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 22px; padding-top: 28px }
+.tile { display: block; text-decoration: none; color: inherit; background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); transition: transform .15s ease, box-shadow .15s ease }
+.tile:hover, .tile:focus-visible { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(31, 95, 191, .28); outline: none }
+.tile:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px }
+.tile .img { aspect-ratio: 16 / 9; background: var(--navy); overflow: hidden }
+.tile img { width: 100%; height: 100%; object-fit: cover; display: block }
+.tile .name { padding: 14px 16px 16px; font-weight: 600; font-size: 16px; line-height: 1.3; text-wrap: balance }
+/* session */
+.session { padding-top: 26px; display: grid; gap: 22px; max-width: 960px; margin: 0 auto }
+.session h1 { margin: 0; font-size: 26px; font-weight: 600; line-height: 1.25; text-wrap: balance; color: var(--ink) }
+.player { position: relative; aspect-ratio: 16 / 9; width: 100%; max-width: 100%; background: #000; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow) }
+.player iframe, .player > div { position: absolute; inset: 0; width: 100%; height: 100% }
+.outline { display: grid; gap: 6px; padding: 0; margin: 0; list-style: none }
+.sec { background: var(--surface); border-radius: 12px; padding: 6px; box-shadow: 0 1px 0 var(--line) }
+.sec.on { box-shadow: 0 0 0 2px var(--blue) }
+.jump { display: flex; gap: 14px; align-items: baseline; width: 100%; text-align: left; background: none; border: 0; color: var(--ink); font: inherit; padding: 10px 12px; border-radius: 9px; cursor: pointer }
+.jump:hover, .jump:focus-visible { background: var(--hover); outline: none }
+.jump .t { flex: 0 0 auto; min-width: 58px; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--blue); font-size: 14px }
+.jump .x { min-width: 0 }
+.sec > .jump .x { font-weight: 600; font-size: 16px }
+.pts { list-style: none; margin: 0; padding: 0 0 4px 0 }
+.pts .jump { padding: 7px 12px 7px 12px }
+.pts .jump .t { font-weight: 500; color: var(--soft) }
+.pts .jump .x { color: var(--ink); font-size: 14.5px }
+.pts .jump:hover .t { color: var(--blue) }
+@media (max-width: 560px) {
+  .session h1 { font-size: 21px }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px }
+  .tile .name { font-size: 14px; padding: 10px 12px 12px }
+  .jump .t { min-width: 48px }
+}
+@media (prefers-reduced-motion: reduce) { .tile { transition: none } .tile:hover { transform: none } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="bar">
+    <div class="brand"><span class="who">Aaron Prickel · Mastery</span><span class="what">How Do You Know You Have Enough</span></div>
+  </div>
+</header>
+<main class="wrap">
+  <section class="session">
+    <div class="player"><div id="yt"></div></div>
+    <ol class="outline"><li class="sec" data-s="0"><button class="jump" data-s="0"><span class="t">0:00</span><span class="x">Card exercise: write milestones</span></button><ul class="pts"><li><button class="jump" data-s="0"><span class="t">0:00</span><span class="x">Rip paper into eight pieces; write each process milestone</span></button></li><li><button class="jump" data-s="52"><span class="t">0:52</span><span class="x">Like showering: process should need no thinking</span></button></li><li><button class="jump" data-s="121"><span class="t">2:01</span><span class="x">People write the steps they are most comfortable with first</span></button></li></ul></li>
+<li class="sec" data-s="175"><button class="jump" data-s="175"><span class="t">2:55</span><span class="x">Flip it: how do you know you have enough?</span></button><ul class="pts"><li><button class="jump" data-s="175"><span class="t">2:55</span><span class="x">On the back, write when you can move on</span></button></li><li><button class="jump" data-s="203"><span class="t">3:23</span><span class="x">Question from a client: how do you know when to move on?</span></button></li></ul></li>
+<li class="sec" data-s="239"><button class="jump" data-s="239"><span class="t">3:59</span><span class="x">Rapport, up-front contract and pain</span></button><ul class="pts"><li><button class="jump" data-s="251"><span class="t">4:11</span><span class="x">Rapport: enough once you can identify and match style</span></button></li><li><button class="jump" data-s="270"><span class="t">4:30</span><span class="x">Up-front contract: time, agenda, outcome</span></button></li><li><button class="jump" data-s="287"><span class="t">4:47</span><span class="x">Pain: what, why, impact, plus context and emotion</span></button></li><li><button class="jump" data-s="346"><span class="t">5:46</span><span class="x">Don&#x27;t make pain a mathematical equation</span></button></li></ul></li>
+<li class="sec" data-s="372"><button class="jump" data-s="372"><span class="t">6:12</span><span class="x">Presenting and the close</span></button><ul class="pts"><li><button class="jump" data-s="372"><span class="t">6:12</span><span class="x">Stop presenting when you&#x27;ve solved pain and met criteria</span></button></li><li><button class="jump" data-s="391"><span class="t">6:31</span><span class="x">Then ask: do you believe we could help?</span></button></li></ul></li>
+<li class="sec" data-s="412"><button class="jump" data-s="412"><span class="t">6:52</span><span class="x">Decision: process, criteria, timeline, who</span></button><ul class="pts"><li><button class="jump" data-s="422"><span class="t">7:02</span><span class="x">Who often surfaces organically through process</span></button></li><li><button class="jump" data-s="480"><span class="t">8:00</span><span class="x">Influence a cumbersome process with a killer pain step</span></button></li><li><button class="jump" data-s="562"><span class="t">9:22</span><span class="x">Ask if they&#x27;ve ever expedited a process before</span></button></li></ul></li>
+<li class="sec" data-s="592"><button class="jump" data-s="592"><span class="t">9:52</span><span class="x">Criteria and differentiators</span></button><ul class="pts"><li><button class="jump" data-s="601"><span class="t">10:01</span><span class="x">Engagement is the differentiator, shown by doing it</span></button></li><li><button class="jump" data-s="632"><span class="t">10:32</span><span class="x">Slow down the beginning; ask what a perfect partner looks like</span></button></li></ul></li>
+<li class="sec" data-s="682"><button class="jump" data-s="682"><span class="t">11:22</span><span class="x">Repetition and role play</span></button><ul class="pts"><li><button class="jump" data-s="692"><span class="t">11:32</span><span class="x">Role play and attach labels to each step</span></button></li><li><button class="jump" data-s="726"><span class="t">12:06</span><span class="x">Take the thinking out so it becomes muscle memory</span></button></li></ul></li></ol>
+  </section>
+</main>
+<script>
+let player = null, ticker = null;
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('yt', { videoId: 'NnMBghEVUCA', host: 'https://www.youtube-nocookie.com',
+    playerVars: { rel: 0, playsinline: 1, origin: location.origin },
+    events: { onReady: () => { ticker = setInterval(mark, 1000); } } });
+}
+function mark() {
+  if (!player || !player.getCurrentTime) return;
+  const now = player.getCurrentTime(); let cur = -1;
+  const secs = document.querySelectorAll('.sec');
+  secs.forEach((el, i) => { if (+el.dataset.s <= now + 0.5) cur = i; });
+  secs.forEach((el, i) => el.classList.toggle('on', i === cur));
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('.jump'); if (!b) return;
+  if (player && player.seekTo) { player.seekTo(+b.dataset.s, true); player.playVideo(); }
+  const box = document.querySelector('.player');
+  if (box.getBoundingClientRect().top < 0) box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>

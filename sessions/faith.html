@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Faith | AP Mastery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+<style>
+/* Layout: hub of slide-cover tiles -> one session per view: player on top, clickable outline under it */
+:root {
+  --bg: #f4f6fa; --surface: #ffffff; --ink: #0f1f3d; --soft: #5b6884; --line: #e1e6ef;
+  --navy: #13294b; --blue: #1f5fbf; --sky: #2f8ae0; --gold: #e8aa42; --hover: #eaf1fc;
+  --shadow: 0 10px 30px rgba(19, 41, 75, .14);
+  --font: "Poppins", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0b1424; --surface: #121e33; --ink: #e8eef9; --soft: #9aa8c2; --line: #22314d;
+  --navy: #0d1d38; --blue: #5b9bf0; --sky: #6fb0ff; --gold: #f0b85a; --hover: #18284a;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .45); color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0b1424; --surface: #121e33; --ink: #e8eef9; --soft: #9aa8c2; --line: #22314d;
+  --navy: #0d1d38; --blue: #5b9bf0; --sky: #6fb0ff; --gold: #f0b85a; --hover: #18284a;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .45); color-scheme: dark }
+* { box-sizing: border-box }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.5 }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 0 64px }
+header.top { background: linear-gradient(120deg, #13294b, #1f5fbf 70%, #2f8ae0); color: #fff; padding-top: env(safe-area-inset-top, 0px) }
+header.top .bar { max-width: 1180px; margin: 0 auto; padding: 18px 20px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap }
+.brand { display: flex; flex-direction: column; line-height: 1.15 }
+.brand .who { font-weight: 300; font-size: 14px; opacity: .85 }
+.brand .what { font-weight: 600; font-size: 22px; letter-spacing: .01em }
+nav a { color: #fff; text-decoration: none; font-weight: 500; font-size: 15px; padding: 8px 14px; border-radius: 10px; background: rgba(255,255,255,.12) }
+nav a:hover, nav a:focus-visible { background: rgba(255,255,255,.24); outline: none }
+/* hub */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 22px; padding-top: 28px }
+.tile { display: block; text-decoration: none; color: inherit; background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); transition: transform .15s ease, box-shadow .15s ease }
+.tile:hover, .tile:focus-visible { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(31, 95, 191, .28); outline: none }
+.tile:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px }
+.tile .img { aspect-ratio: 16 / 9; background: var(--navy); overflow: hidden }
+.tile img { width: 100%; height: 100%; object-fit: cover; display: block }
+.tile .name { padding: 14px 16px 16px; font-weight: 600; font-size: 16px; line-height: 1.3; text-wrap: balance }
+/* session */
+.session { padding-top: 26px; display: grid; gap: 22px; max-width: 960px; margin: 0 auto }
+.session h1 { margin: 0; font-size: 26px; font-weight: 600; line-height: 1.25; text-wrap: balance; color: var(--ink) }
+.player { position: relative; aspect-ratio: 16 / 9; width: 100%; max-width: 100%; background: #000; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow) }
+.player iframe, .player > div { position: absolute; inset: 0; width: 100%; height: 100% }
+.outline { display: grid; gap: 6px; padding: 0; margin: 0; list-style: none }
+.sec { background: var(--surface); border-radius: 12px; padding: 6px; box-shadow: 0 1px 0 var(--line) }
+.sec.on { box-shadow: 0 0 0 2px var(--blue) }
+.jump { display: flex; gap: 14px; align-items: baseline; width: 100%; text-align: left; background: none; border: 0; color: var(--ink); font: inherit; padding: 10px 12px; border-radius: 9px; cursor: pointer }
+.jump:hover, .jump:focus-visible { background: var(--hover); outline: none }
+.jump .t { flex: 0 0 auto; min-width: 58px; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--blue); font-size: 14px }
+.jump .x { min-width: 0 }
+.sec > .jump .x { font-weight: 600; font-size: 16px }
+.pts { list-style: none; margin: 0; padding: 0 0 4px 0 }
+.pts .jump { padding: 7px 12px 7px 12px }
+.pts .jump .t { font-weight: 500; color: var(--soft) }
+.pts .jump .x { color: var(--ink); font-size: 14.5px }
+.pts .jump:hover .t { color: var(--blue) }
+@media (max-width: 560px) {
+  .session h1 { font-size: 21px }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px }
+  .tile .name { font-size: 14px; padding: 10px 12px 12px }
+  .jump .t { min-width: 48px }
+}
+@media (prefers-reduced-motion: reduce) { .tile { transition: none } .tile:hover { transform: none } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="bar">
+    <div class="brand"><span class="who">Aaron Prickel · Mastery</span><span class="what">Faith</span></div>
+  </div>
+</header>
+<main class="wrap">
+  <section class="session">
+    <div class="player"><div id="yt"></div></div>
+    <ol class="outline"><li class="sec" data-s="0"><button class="jump" data-s="0"><span class="t">0:00</span><span class="x">Faith defined: belief, not religion</span></button><ul class="pts"><li><button class="jump" data-s="10"><span class="t">0:10</span><span class="x">Not religious: confidence and belief in someone or something</span></button></li><li><button class="jump" data-s="73"><span class="t">1:13</span><span class="x">Session came from a client of Emily&#x27;s</span></button></li></ul></li>
+<li class="sec" data-s="82"><button class="jump" data-s="82"><span class="t">1:22</span><span class="x">Adversity and the success triangle</span></button><ul class="pts"><li><button class="jump" data-s="122"><span class="t">2:02</span><span class="x">Behavior, attitude, technique: a missing result is one of three</span></button></li><li><button class="jump" data-s="194"><span class="t">3:14</span><span class="x">Attitude is how you see yourself, company, market</span></button></li><li><button class="jump" data-s="231"><span class="t">3:51</span><span class="x">Worst case: if you can&#x27;t live with it, don&#x27;t do it</span></button></li></ul></li>
+<li class="sec" data-s="275"><button class="jump" data-s="275"><span class="t">4:35</span><span class="x">The change curve and the valley</span></button><ul class="pts"><li><button class="jump" data-s="293"><span class="t">4:53</span><span class="x">Shock, denial, frustration: stuck in the valley</span></button></li><li><button class="jump" data-s="335"><span class="t">5:35</span><span class="x">Decision first, then commitment gets you out</span></button></li><li><button class="jump" data-s="355"><span class="t">5:55</span><span class="x">Worst thing when stuck is to sit still</span></button></li></ul></li>
+<li class="sec" data-s="419"><button class="jump" data-s="419"><span class="t">6:59</span><span class="x">Why sellers matter</span></button><ul class="pts"><li><button class="jump" data-s="428"><span class="t">7:08</span><span class="x">People can&#x27;t see the root of their own issues</span></button></li><li><button class="jump" data-s="454"><span class="t">7:34</span><span class="x">Play pseudo-therapist: help people see what they can&#x27;t</span></button></li></ul></li>
+<li class="sec" data-s="488"><button class="jump" data-s="488"><span class="t">8:08</span><span class="x">Payoffs and seeking control</span></button><ul class="pts"><li><button class="jump" data-s="488"><span class="t">8:08</span><span class="x">Every behavior has a payoff, even doubt and worry</span></button></li><li><button class="jump" data-s="551"><span class="t">9:11</span><span class="x">Fighting for control creates more stress</span></button></li><li><button class="jump" data-s="571"><span class="t">9:31</span><span class="x">Story: recreating Mom&#x27;s holidays exactly</span></button></li></ul></li>
+<li class="sec" data-s="669"><button class="jump" data-s="669"><span class="t">11:09</span><span class="x">Impact versus control</span></button><ul class="pts"><li><button class="jump" data-s="669"><span class="t">11:09</span><span class="x">Live in the overlap of high impact and high control</span></button></li><li><button class="jump" data-s="719"><span class="t">11:59</span><span class="x">Pick the top controllable, high-impact item for 30 days</span></button></li></ul></li>
+<li class="sec" data-s="756"><button class="jump" data-s="756"><span class="t">12:36</span><span class="x">Sell like you talk to friends</span></button><ul class="pts"><li><button class="jump" data-s="768"><span class="t">12:48</span><span class="x">You don&#x27;t pitch friends; skip &#x27;probing questions&#x27;</span></button></li><li><button class="jump" data-s="810"><span class="t">13:30</span><span class="x">Phrases we&#x27;d never say in real life</span></button></li><li><button class="jump" data-s="854"><span class="t">14:14</span><span class="x">Control process and behavior, not outcomes</span></button></li></ul></li>
+<li class="sec" data-s="878"><button class="jump" data-s="878"><span class="t">14:38</span><span class="x">Surrender: people have faith for you</span></button><ul class="pts"><li><button class="jump" data-s="889"><span class="t">14:49</span><span class="x">Story: a loss, and a pastor&#x27;s &#x27;it&#x27;s okay to lose faith&#x27;</span></button></li><li><button class="jump" data-s="947"><span class="t">15:47</span><span class="x">Others have faith for you; great leaders do for their people</span></button></li><li><button class="jump" data-s="985"><span class="t">16:25</span><span class="x">Most head trash is installed by age five</span></button></li></ul></li>
+<li class="sec" data-s="1035"><button class="jump" data-s="1035"><span class="t">17:15</span><span class="x">Prioritize, stay flexible, trust the process</span></button><ul class="pts"><li><button class="jump" data-s="1055"><span class="t">17:35</span><span class="x">Ask: am I seeking control or surrendering?</span></button></li><li><button class="jump" data-s="1074"><span class="t">17:54</span><span class="x">Be flexible enough to ebb and flow, disciplined on priorities</span></button></li></ul></li>
+<li class="sec" data-s="1097"><button class="jump" data-s="1097"><span class="t">18:17</span><span class="x">You&#x27;ve sold before</span></button><ul class="pts"><li><button class="jump" data-s="1097"><span class="t">18:17</span><span class="x">Selling is understanding behavior and managing conflict</span></button></li><li><button class="jump" data-s="1106"><span class="t">18:26</span><span class="x">Friends: match and mirror, up-front contract, uncover pain</span></button></li><li><button class="jump" data-s="1159"><span class="t">19:19</span><span class="x">Great sellers break the stigma of the least-trusted profession</span></button></li></ul></li>
+<li class="sec" data-s="1283"><button class="jump" data-s="1283"><span class="t">21:23</span><span class="x">Don&#x27;t judge or believe your thoughts</span></button><ul class="pts"><li><button class="jump" data-s="1292"><span class="t">21:32</span><span class="x">Don&#x27;t judge your thoughts; confirmation bias</span></button></li><li><button class="jump" data-s="1311"><span class="t">21:51</span><span class="x">The belief window: you look for proof you&#x27;re right</span></button></li><li><button class="jump" data-s="1401"><span class="t">23:21</span><span class="x">Friends tell you how cheap to be; a relationship tells you what they&#x27;d pay</span></button></li></ul></li>
+<li class="sec" data-s="1486"><button class="jump" data-s="1486"><span class="t">24:46</span><span class="x">Accept the new normal, buy the decision</span></button><ul class="pts"><li><button class="jump" data-s="1521"><span class="t">25:21</span><span class="x">Struggling with a new norm means a new version of yourself</span></button></li><li><button class="jump" data-s="1562"><span class="t">26:02</span><span class="x">Marriage example: buy the big decision, figure out the hows</span></button></li><li><button class="jump" data-s="1650"><span class="t">27:30</span><span class="x">What drives your faith? Joy fuels it</span></button></li><li><button class="jump" data-s="1700"><span class="t">28:20</span><span class="x">Get effective first, then efficient</span></button></li></ul></li></ol>
+  </section>
+</main>
+<script>
+let player = null, ticker = null;
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('yt', { videoId: 'VslytZjJyOw', host: 'https://www.youtube-nocookie.com',
+    playerVars: { rel: 0, playsinline: 1, origin: location.origin },
+    events: { onReady: () => { ticker = setInterval(mark, 1000); } } });
+}
+function mark() {
+  if (!player || !player.getCurrentTime) return;
+  const now = player.getCurrentTime(); let cur = -1;
+  const secs = document.querySelectorAll('.sec');
+  secs.forEach((el, i) => { if (+el.dataset.s <= now + 0.5) cur = i; });
+  secs.forEach((el, i) => el.classList.toggle('on', i === cur));
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('.jump'); if (!b) return;
+  if (player && player.seekTo) { player.seekTo(+b.dataset.s, true); player.playVideo(); }
+  const box = document.querySelector('.player');
+  if (box.getBoundingClientRect().top < 0) box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>

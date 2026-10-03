@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Selling Through Your Champion | AP Mastery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+<style>
+/* Layout: hub of slide-cover tiles -> one session per view: player on top, clickable outline under it */
+:root {
+  --bg: #f4f6fa; --surface: #ffffff; --ink: #0f1f3d; --soft: #5b6884; --line: #e1e6ef;
+  --navy: #13294b; --blue: #1f5fbf; --sky: #2f8ae0; --gold: #e8aa42; --hover: #eaf1fc;
+  --shadow: 0 10px 30px rgba(19, 41, 75, .14);
+  --font: "Poppins", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0b1424; --surface: #121e33; --ink: #e8eef9; --soft: #9aa8c2; --line: #22314d;
+  --navy: #0d1d38; --blue: #5b9bf0; --sky: #6fb0ff; --gold: #f0b85a; --hover: #18284a;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .45); color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0b1424; --surface: #121e33; --ink: #e8eef9; --soft: #9aa8c2; --line: #22314d;
+  --navy: #0d1d38; --blue: #5b9bf0; --sky: #6fb0ff; --gold: #f0b85a; --hover: #18284a;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .45); color-scheme: dark }
+* { box-sizing: border-box }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.5 }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 0 64px }
+header.top { background: linear-gradient(120deg, #13294b, #1f5fbf 70%, #2f8ae0); color: #fff; padding-top: env(safe-area-inset-top, 0px) }
+header.top .bar { max-width: 1180px; margin: 0 auto; padding: 18px 20px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap }
+.brand { display: flex; flex-direction: column; line-height: 1.15 }
+.brand .who { font-weight: 300; font-size: 14px; opacity: .85 }
+.brand .what { font-weight: 600; font-size: 22px; letter-spacing: .01em }
+nav a { color: #fff; text-decoration: none; font-weight: 500; font-size: 15px; padding: 8px 14px; border-radius: 10px; background: rgba(255,255,255,.12) }
+nav a:hover, nav a:focus-visible { background: rgba(255,255,255,.24); outline: none }
+/* hub */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 22px; padding-top: 28px }
+.tile { display: block; text-decoration: none; color: inherit; background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); transition: transform .15s ease, box-shadow .15s ease }
+.tile:hover, .tile:focus-visible { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(31, 95, 191, .28); outline: none }
+.tile:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px }
+.tile .img { aspect-ratio: 16 / 9; background: var(--navy); overflow: hidden }
+.tile img { width: 100%; height: 100%; object-fit: cover; display: block }
+.tile .name { padding: 14px 16px 16px; font-weight: 600; font-size: 16px; line-height: 1.3; text-wrap: balance }
+/* session */
+.session { padding-top: 26px; display: grid; gap: 22px; max-width: 960px; margin: 0 auto }
+.session h1 { margin: 0; font-size: 26px; font-weight: 600; line-height: 1.25; text-wrap: balance; color: var(--ink) }
+.player { position: relative; aspect-ratio: 16 / 9; width: 100%; max-width: 100%; background: #000; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow) }
+.player iframe, .player > div { position: absolute; inset: 0; width: 100%; height: 100% }
+.outline { display: grid; gap: 6px; padding: 0; margin: 0; list-style: none }
+.sec { background: var(--surface); border-radius: 12px; padding: 6px; box-shadow: 0 1px 0 var(--line) }
+.sec.on { box-shadow: 0 0 0 2px var(--blue) }
+.jump { display: flex; gap: 14px; align-items: baseline; width: 100%; text-align: left; background: none; border: 0; color: var(--ink); font: inherit; padding: 10px 12px; border-radius: 9px; cursor: pointer }
+.jump:hover, .jump:focus-visible { background: var(--hover); outline: none }
+.jump .t { flex: 0 0 auto; min-width: 58px; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--blue); font-size: 14px }
+.jump .x { min-width: 0 }
+.sec > .jump .x { font-weight: 600; font-size: 16px }
+.pts { list-style: none; margin: 0; padding: 0 0 4px 0 }
+.pts .jump { padding: 7px 12px 7px 12px }
+.pts .jump .t { font-weight: 500; color: var(--soft) }
+.pts .jump .x { color: var(--ink); font-size: 14.5px }
+.pts .jump:hover .t { color: var(--blue) }
+@media (max-width: 560px) {
+  .session h1 { font-size: 21px }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px }
+  .tile .name { font-size: 14px; padding: 10px 12px 12px }
+  .jump .t { min-width: 48px }
+}
+@media (prefers-reduced-motion: reduce) { .tile { transition: none } .tile:hover { transform: none } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="bar">
+    <div class="brand"><span class="who">Aaron Prickel · Mastery</span><span class="what">Selling Through Your Champion</span></div>
+  </div>
+</header>
+<main class="wrap">
+  <section class="session">
+    <div class="player"><div id="yt"></div></div>
+    <ol class="outline"><li class="sec" data-s="0"><button class="jump" data-s="0"><span class="t">0:00</span><span class="x">What a champion is: ideal vs minimal</span></button><ul class="pts"><li><button class="jump" data-s="17"><span class="t">0:17</span><span class="x">Champion means anyone you sell through who cannot say yes or no</span></button></li><li><button class="jump" data-s="81"><span class="t">1:21</span><span class="x">Ideal is the decision maker; minimal acceptable is selling through others</span></button></li></ul></li>
+<li class="sec" data-s="131"><button class="jump" data-s="131"><span class="t">2:11</span><span class="x">Why selling through others is hard</span></button><ul class="pts"><li><button class="jump" data-s="140"><span class="t">2:20</span><span class="x">Never be more excited to sell than they are to buy</span></button></li><li><button class="jump" data-s="190"><span class="t">3:10</span><span class="x">Ask how they will make the decision</span></button></li></ul></li>
+<li class="sec" data-s="201"><button class="jump" data-s="201"><span class="t">3:21</span><span class="x">Upfront contracts as first decision step</span></button><ul class="pts"><li><button class="jump" data-s="257"><span class="t">4:17</span><span class="x">&quot;What do you want to get figured out today?&quot;</span></button></li><li><button class="jump" data-s="276"><span class="t">4:36</span><span class="x">Hearing about another decision maker after a quote means a weak upfront contract</span></button></li><li><button class="jump" data-s="300"><span class="t">5:00</span><span class="x">Lucas story: a neutral answer reveals how their process works</span></button></li></ul></li>
+<li class="sec" data-s="391"><button class="jump" data-s="391"><span class="t">6:31</span><span class="x">Different pain and clear reasons</span></button><ul class="pts"><li><button class="jump" data-s="400"><span class="t">6:40</span><span class="x">Disney story: sell to the pain point of patience, not candy</span></button></li><li><button class="jump" data-s="464"><span class="t">7:44</span><span class="x">Be able to state three reasons to choose you</span></button></li></ul></li>
+<li class="sec" data-s="534"><button class="jump" data-s="534"><span class="t">8:54</span><span class="x">Beliefs drive actions</span></button><ul class="pts"><li><button class="jump" data-s="534"><span class="t">8:54</span><span class="x">Megaphone preacher: telling people what to believe doesn&#x27;t convert</span></button></li><li><button class="jump" data-s="638"><span class="t">10:38</span><span class="x">Belief window: beliefs drive actions, actions drive results</span></button></li><li><button class="jump" data-s="669"><span class="t">11:09</span><span class="x">Champion must say they believe you are the best fit</span></button></li></ul></li>
+<li class="sec" data-s="717"><button class="jump" data-s="717"><span class="t">11:57</span><span class="x">Prepare your champion</span></button><ul class="pts"><li><button class="jump" data-s="726"><span class="t">12:06</span><span class="x">Ask where they have gotten tripped up in the past</span></button></li><li><button class="jump" data-s="768"><span class="t">12:48</span><span class="x">First rehearsal with you, second conversation with them</span></button></li></ul></li>
+<li class="sec" data-s="810"><button class="jump" data-s="810"><span class="t">13:30</span><span class="x">Presence and clarity</span></button><ul class="pts"><li><button class="jump" data-s="819"><span class="t">13:39</span><span class="x">Force pushes, power draws</span></button></li><li><button class="jump" data-s="848"><span class="t">14:08</span><span class="x">Wishy-washy words signal low presence; don&#x27;t accept mumbled answers</span></button></li><li><button class="jump" data-s="973"><span class="t">16:13</span><span class="x">Presence is confidence, connection and communication</span></button></li></ul></li>
+<li class="sec" data-s="1030"><button class="jump" data-s="1030"><span class="t">17:10</span><span class="x">Close the &quot;I don&#x27;t know&quot; gaps</span></button><ul class="pts"><li><button class="jump" data-s="1056"><span class="t">17:36</span><span class="x">Ask what questions they might get where they&#x27;d say &quot;I don&#x27;t know&quot;</span></button></li><li><button class="jump" data-s="1108"><span class="t">18:28</span><span class="x">One dot does not make a line</span></button></li></ul></li>
+<li class="sec" data-s="1171"><button class="jump" data-s="1171"><span class="t">19:31</span><span class="x">Departmental pain and hidden approvers</span></button><ul class="pts"><li><button class="jump" data-s="1223"><span class="t">20:23</span><span class="x">Dairy story: the buyer&#x27;s real reason was a small green initiative</span></button></li><li><button class="jump" data-s="1319"><span class="t">21:59</span><span class="x">&quot;I have to run this past the CFO&quot; is an alarm</span></button></li><li><button class="jump" data-s="1341"><span class="t">22:21</span><span class="x">Ask: does the president know we&#x27;re talking?</span></button></li></ul></li>
+<li class="sec" data-s="1392"><button class="jump" data-s="1392"><span class="t">23:12</span><span class="x">Reach others and ask for perspective</span></button><ul class="pts"><li><button class="jump" data-s="1392"><span class="t">23:12</span><span class="x">Pre-talk calls to ask a few people for feedback</span></button></li><li><button class="jump" data-s="1430"><span class="t">23:50</span><span class="x">Ask for perspective and opinion, not &quot;a lot of questions&quot;</span></button></li><li><button class="jump" data-s="1477"><span class="t">24:37</span><span class="x">Make sure they can repeat the case in their words</span></button></li></ul></li>
+<li class="sec" data-s="1485"><button class="jump" data-s="1485"><span class="t">24:45</span><span class="x">Build an army; question consensus</span></button><ul class="pts"><li><button class="jump" data-s="1505"><span class="t">25:05</span><span class="x">Build an army of advocates, not just one champion</span></button></li><li><button class="jump" data-s="1548"><span class="t">25:48</span><span class="x">Ask: do you need consensus or enough of the right people?</span></button></li></ul></li>
+<li class="sec" data-s="1596"><button class="jump" data-s="1596"><span class="t">26:36</span><span class="x">Threats, shunting down, neutral questions</span></button><ul class="pts"><li><button class="jump" data-s="1596"><span class="t">26:36</span><span class="x">Weak leaders see you as a threat; strong ones see an accelerant</span></button></li><li><button class="jump" data-s="1647"><span class="t">27:27</span><span class="x">Shunted down for in-the-trench questions to big-picture people</span></button></li><li><button class="jump" data-s="1744"><span class="t">29:04</span><span class="x">Ask: &quot;What if they&#x27;re the problem?&quot;</span></button></li><li><button class="jump" data-s="1815"><span class="t">30:15</span><span class="x">The more neutral the question, the more honest the answer</span></button></li></ul></li>
+<li class="sec" data-s="2044"><button class="jump" data-s="2044"><span class="t">34:04</span><span class="x">Get the truth, not words</span></button><ul class="pts"><li><button class="jump" data-s="2044"><span class="t">34:04</span><span class="x">They must tell you they believe you are the best fit</span></button></li><li><button class="jump" data-s="2069"><span class="t">34:29</span><span class="x">Ask: how will you know who will best help you?</span></button></li><li><button class="jump" data-s="2106"><span class="t">35:06</span><span class="x">Need for approval makes us accept words as answers</span></button></li><li><button class="jump" data-s="2319"><span class="t">38:39</span><span class="x">Great sellers interrogate people&#x27;s reality</span></button></li></ul></li>
+<li class="sec" data-s="2350"><button class="jump" data-s="2350"><span class="t">39:10</span><span class="x">Reduce risk and preserve dignity</span></button><ul class="pts"><li><button class="jump" data-s="2369"><span class="t">39:29</span><span class="x">Ask about &quot;little things not quite happening&quot; instead of problems</span></button></li><li><button class="jump" data-s="2416"><span class="t">40:16</span><span class="x">Turn past burns into questions for them to defuse</span></button></li><li><button class="jump" data-s="2445"><span class="t">40:45</span><span class="x">Be phenomenal with your champion; build advocates</span></button></li></ul></li></ol>
+  </section>
+</main>
+<script>
+let player = null, ticker = null;
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('yt', { videoId: '2tXcuLAg_C8', host: 'https://www.youtube-nocookie.com',
+    playerVars: { rel: 0, playsinline: 1, origin: location.origin },
+    events: { onReady: () => { ticker = setInterval(mark, 1000); } } });
+}
+function mark() {
+  if (!player || !player.getCurrentTime) return;
+  const now = player.getCurrentTime(); let cur = -1;
+  const secs = document.querySelectorAll('.sec');
+  secs.forEach((el, i) => { if (+el.dataset.s <= now + 0.5) cur = i; });
+  secs.forEach((el, i) => el.classList.toggle('on', i === cur));
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('.jump'); if (!b) return;
+  if (player && player.seekTo) { player.seekTo(+b.dataset.s, true); player.playVideo(); }
+  const box = document.querySelector('.player');
+  if (box.getBoundingClientRect().top < 0) box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>
