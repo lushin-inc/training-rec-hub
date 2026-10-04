@@ -41,6 +41,22 @@ nav a:hover, nav a:focus-visible { background: rgba(255,255,255,.24); outline: n
 .tile .img { aspect-ratio: 16 / 9; background: var(--navy); overflow: hidden }
 .tile img { width: 100%; height: 100%; object-fit: cover; display: block }
 .tile .name { padding: 14px 16px 16px; font-weight: 600; font-size: 16px; line-height: 1.3; text-wrap: balance }
+.search { padding-top: 28px; max-width: 760px }
+.search input { width: 100%; font: inherit; font-size: 17px; padding: 15px 18px 15px 48px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%235b6884' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='9' cy='9' r='6'/%3E%3Cpath d='m14 14 4 4'/%3E%3C/svg%3E") no-repeat 16px center; color: var(--ink); box-shadow: var(--shadow) }
+.search input:focus { outline: 3px solid var(--sky); outline-offset: 1px }
+.results { display: grid; gap: 14px; padding-top: 22px }
+.rgroup { background: var(--surface); border-radius: 14px; padding: 14px 16px; box-shadow: var(--shadow) }
+.rgroup h2 { margin: 0 0 6px; font-size: 17px; font-weight: 600 }
+.rgroup h2 a { color: var(--ink); text-decoration: none }
+.rgroup h2 a:hover { color: var(--blue) }
+.hit { display: flex; gap: 14px; padding: 7px 8px; border-radius: 8px; text-decoration: none; color: var(--ink); font-size: 14.5px }
+.hit:hover, .hit:focus-visible { background: var(--hover); outline: none }
+.hit .t { flex: 0 0 auto; min-width: 54px; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--blue) }
+.hit .x { min-width: 0 }
+.hit mark { background: color-mix(in srgb, var(--gold) 45%, transparent); color: inherit; border-radius: 3px; padding: 0 1px }
+.hit.said .x { color: var(--soft) }
+.more { font-size: 13.5px; color: var(--soft); padding: 4px 8px 0 }
+.none { color: var(--soft); padding-top: 18px }
 /* session */
 .session { padding-top: 26px; display: grid; gap: 22px; max-width: 960px; margin: 0 auto }
 .session h1 { margin: 0; font-size: 26px; font-weight: 600; line-height: 1.25; text-wrap: balance; color: var(--ink) }
@@ -74,30 +90,79 @@ nav a:hover, nav a:focus-visible { background: rgba(255,255,255,.24); outline: n
     <div class="brand"><span class="who">Aaron Prickel</span><span class="what">Mastery Sessions</span></div>
   </div>
 </header>
-<main class="wrap"><div class="grid"><a class="tile" href="sessions/do-you-hear-what-i-hear.html"><div class="img"><img src="assets/do-you-hear-what-i-hear.jpg" alt="" loading="lazy"></div><div class="name">Do You Hear What I Hear?</div></a>
-<a class="tile" href="sessions/learning-how-to-write-what-you-want.html"><div class="img"><img src="assets/learning-how-to-write-what-you-want.jpg" alt="" loading="lazy"></div><div class="name">Learning How to Write What You Want</div></a>
-<a class="tile" href="sessions/litmus-test-lushin-priorities.html"><div class="img"><img src="assets/litmus-test-lushin-priorities.jpg" alt="" loading="lazy"></div><div class="name">Litmus Test: Lushin Priorities</div></a>
-<a class="tile" href="sessions/email-strategies-for-sales.html"><div class="img"><img src="assets/email-strategies-for-sales.jpg" alt="" loading="lazy"></div><div class="name">Email Strategies for Sales</div></a>
-<a class="tile" href="sessions/increasing-guts.html"><div class="img"><img src="assets/increasing-guts.jpg" alt="" loading="lazy"></div><div class="name">Increasing GUTS</div></a>
-<a class="tile" href="sessions/awkward-sales-transitions.html"><div class="img"><img src="assets/awkward-sales-transitions.jpg" alt="" loading="lazy"></div><div class="name">Awkward Sales Transitions</div></a>
-<a class="tile" href="sessions/protecting-bandwidth.html"><div class="img"><img src="assets/protecting-bandwidth.jpg" alt="" loading="lazy"></div><div class="name">Protecting Bandwidth</div></a>
-<a class="tile" href="sessions/selling-through-your-champion.html"><div class="img"><img src="assets/selling-through-your-champion.jpg" alt="" loading="lazy"></div><div class="name">Selling Through Your Champion</div></a>
-<a class="tile" href="sessions/building-a-fanbase.html"><div class="img"><img src="assets/building-a-fanbase.jpg" alt="" loading="lazy"></div><div class="name">Building a Fanbase</div></a>
-<a class="tile" href="sessions/faith.html"><div class="img"><img src="assets/faith.jpg" alt="" loading="lazy"></div><div class="name">Faith</div></a>
-<a class="tile" href="sessions/increasing-show-rate.html"><div class="img"><img src="assets/increasing-show-rate.jpg" alt="" loading="lazy"></div><div class="name">Increasing Show Rate</div></a>
-<a class="tile" href="sessions/overcoming-call-reluctancy.html"><div class="img"><img src="assets/overcoming-call-reluctancy.jpg" alt="" loading="lazy"></div><div class="name">Overcoming Call Reluctancy</div></a>
-<a class="tile" href="sessions/magical-people-skills.html"><div class="img"><img src="assets/magical-people-skills.jpg" alt="" loading="lazy"></div><div class="name">Magical People Skills</div></a>
-<a class="tile" href="sessions/client-retention.html"><div class="img"><img src="assets/client-retention.jpg" alt="" loading="lazy"></div><div class="name">Client Retention</div></a>
-<a class="tile" href="sessions/how-do-you-know-you-have-enough.html"><div class="img"><img src="assets/how-do-you-know-you-have-enough.jpg" alt="" loading="lazy"></div><div class="name">How Do You Know You Have Enough</div></a>
-<a class="tile" href="sessions/lushin-s-priorities-rules.html"><div class="img"><img src="assets/lushin-s-priorities-rules.jpg" alt="" loading="lazy"></div><div class="name">Lushin&#x27;s Priorities &amp; Rules</div></a>
-<a class="tile" href="sessions/rules-to-not-break.html"><div class="img"><img src="assets/rules-to-not-break.jpg" alt="" loading="lazy"></div><div class="name">Rules to NOT Break</div></a>
-<a class="tile" href="sessions/sharpening-clinic.html"><div class="img"><img src="assets/sharpening-clinic.jpg" alt="" loading="lazy"></div><div class="name">Sharpening Clinic</div></a>
-<a class="tile" href="sessions/how-to-effectively-engage-your-prospects.html"><div class="img"><img src="assets/how-to-effectively-engage-your-prospects.jpg" alt="" loading="lazy"></div><div class="name">How to Effectively Engage Your Prospects</div></a>
-<a class="tile" href="sessions/increasing-your-credibility.html"><div class="img"><img src="assets/increasing-your-credibility.jpg" alt="" loading="lazy"></div><div class="name">Increasing Your Credibility</div></a>
-<a class="tile" href="sessions/you-make-the-call.html"><div class="img"><img src="assets/you-make-the-call.jpg" alt="" loading="lazy"></div><div class="name">You Make The Call</div></a>
-<a class="tile" href="sessions/mini-ufcs.html"><div class="img"><img src="assets/mini-ufcs.jpg" alt="" loading="lazy"></div><div class="name">Mini UFCs</div></a>
-<a class="tile" href="sessions/keeping-a-strong-mindset-in-a-tough-economy.html"><div class="img"><img src="assets/keeping-a-strong-mindset-in-a-tough-economy.jpg" alt="" loading="lazy"></div><div class="name">Keeping a Strong Mindset in a Tough Economy</div></a>
-<a class="tile" href="sessions/mediocrity-traps.html"><div class="img"><img src="assets/mediocrity-traps.jpg" alt="" loading="lazy"></div><div class="name">Mediocrity Traps</div></a>
-<a class="tile" href="sessions/double-objections.html"><div class="img"><img src="assets/double-objections.jpg" alt="" loading="lazy"></div><div class="name">Double Objections</div></a></div></main>
+<main class="wrap">
+  <div class="search"><input id="q" type="search" placeholder="Search sessions, topics or anything Aaron said" autocomplete="off" aria-label="Search"></div>
+  <div class="results" id="results" hidden></div>
+  <div class="grid" id="grid"><a class="tile" data-slug="do-you-hear-what-i-hear" href="sessions/do-you-hear-what-i-hear.html"><div class="img"><img src="assets/do-you-hear-what-i-hear.jpg" alt="" loading="lazy"></div><div class="name">Do You Hear What I Hear?</div></a>
+<a class="tile" data-slug="learning-how-to-write-what-you-want" href="sessions/learning-how-to-write-what-you-want.html"><div class="img"><img src="assets/learning-how-to-write-what-you-want.jpg" alt="" loading="lazy"></div><div class="name">Learning How to Write What You Want</div></a>
+<a class="tile" data-slug="litmus-test-lushin-priorities" href="sessions/litmus-test-lushin-priorities.html"><div class="img"><img src="assets/litmus-test-lushin-priorities.jpg" alt="" loading="lazy"></div><div class="name">Litmus Test: Lushin Priorities</div></a>
+<a class="tile" data-slug="email-strategies-for-sales" href="sessions/email-strategies-for-sales.html"><div class="img"><img src="assets/email-strategies-for-sales.jpg" alt="" loading="lazy"></div><div class="name">Email Strategies for Sales</div></a>
+<a class="tile" data-slug="increasing-guts" href="sessions/increasing-guts.html"><div class="img"><img src="assets/increasing-guts.jpg" alt="" loading="lazy"></div><div class="name">Increasing GUTS</div></a>
+<a class="tile" data-slug="awkward-sales-transitions" href="sessions/awkward-sales-transitions.html"><div class="img"><img src="assets/awkward-sales-transitions.jpg" alt="" loading="lazy"></div><div class="name">Awkward Sales Transitions</div></a>
+<a class="tile" data-slug="protecting-bandwidth" href="sessions/protecting-bandwidth.html"><div class="img"><img src="assets/protecting-bandwidth.jpg" alt="" loading="lazy"></div><div class="name">Protecting Bandwidth</div></a>
+<a class="tile" data-slug="selling-through-your-champion" href="sessions/selling-through-your-champion.html"><div class="img"><img src="assets/selling-through-your-champion.jpg" alt="" loading="lazy"></div><div class="name">Selling Through Your Champion</div></a>
+<a class="tile" data-slug="building-a-fanbase" href="sessions/building-a-fanbase.html"><div class="img"><img src="assets/building-a-fanbase.jpg" alt="" loading="lazy"></div><div class="name">Building a Fanbase</div></a>
+<a class="tile" data-slug="faith" href="sessions/faith.html"><div class="img"><img src="assets/faith.jpg" alt="" loading="lazy"></div><div class="name">Faith</div></a>
+<a class="tile" data-slug="increasing-show-rate" href="sessions/increasing-show-rate.html"><div class="img"><img src="assets/increasing-show-rate.jpg" alt="" loading="lazy"></div><div class="name">Increasing Show Rate</div></a>
+<a class="tile" data-slug="overcoming-call-reluctancy" href="sessions/overcoming-call-reluctancy.html"><div class="img"><img src="assets/overcoming-call-reluctancy.jpg" alt="" loading="lazy"></div><div class="name">Overcoming Call Reluctancy</div></a>
+<a class="tile" data-slug="magical-people-skills" href="sessions/magical-people-skills.html"><div class="img"><img src="assets/magical-people-skills.jpg" alt="" loading="lazy"></div><div class="name">Magical People Skills</div></a>
+<a class="tile" data-slug="client-retention" href="sessions/client-retention.html"><div class="img"><img src="assets/client-retention.jpg" alt="" loading="lazy"></div><div class="name">Client Retention</div></a>
+<a class="tile" data-slug="how-do-you-know-you-have-enough" href="sessions/how-do-you-know-you-have-enough.html"><div class="img"><img src="assets/how-do-you-know-you-have-enough.jpg" alt="" loading="lazy"></div><div class="name">How Do You Know You Have Enough</div></a>
+<a class="tile" data-slug="lushin-s-priorities-rules" href="sessions/lushin-s-priorities-rules.html"><div class="img"><img src="assets/lushin-s-priorities-rules.jpg" alt="" loading="lazy"></div><div class="name">Lushin&#x27;s Priorities &amp; Rules</div></a>
+<a class="tile" data-slug="rules-to-not-break" href="sessions/rules-to-not-break.html"><div class="img"><img src="assets/rules-to-not-break.jpg" alt="" loading="lazy"></div><div class="name">Rules to NOT Break</div></a>
+<a class="tile" data-slug="sharpening-clinic" href="sessions/sharpening-clinic.html"><div class="img"><img src="assets/sharpening-clinic.jpg" alt="" loading="lazy"></div><div class="name">Sharpening Clinic</div></a>
+<a class="tile" data-slug="how-to-effectively-engage-your-prospects" href="sessions/how-to-effectively-engage-your-prospects.html"><div class="img"><img src="assets/how-to-effectively-engage-your-prospects.jpg" alt="" loading="lazy"></div><div class="name">How to Effectively Engage Your Prospects</div></a>
+<a class="tile" data-slug="increasing-your-credibility" href="sessions/increasing-your-credibility.html"><div class="img"><img src="assets/increasing-your-credibility.jpg" alt="" loading="lazy"></div><div class="name">Increasing Your Credibility</div></a>
+<a class="tile" data-slug="you-make-the-call" href="sessions/you-make-the-call.html"><div class="img"><img src="assets/you-make-the-call.jpg" alt="" loading="lazy"></div><div class="name">You Make The Call</div></a>
+<a class="tile" data-slug="mini-ufcs" href="sessions/mini-ufcs.html"><div class="img"><img src="assets/mini-ufcs.jpg" alt="" loading="lazy"></div><div class="name">Mini UFCs</div></a>
+<a class="tile" data-slug="keeping-a-strong-mindset-in-a-tough-economy" href="sessions/keeping-a-strong-mindset-in-a-tough-economy.html"><div class="img"><img src="assets/keeping-a-strong-mindset-in-a-tough-economy.jpg" alt="" loading="lazy"></div><div class="name">Keeping a Strong Mindset in a Tough Economy</div></a>
+<a class="tile" data-slug="mediocrity-traps" href="sessions/mediocrity-traps.html"><div class="img"><img src="assets/mediocrity-traps.jpg" alt="" loading="lazy"></div><div class="name">Mediocrity Traps</div></a>
+<a class="tile" data-slug="double-objections" href="sessions/double-objections.html"><div class="img"><img src="assets/double-objections.jpg" alt="" loading="lazy"></div><div class="name">Double Objections</div></a></div>
+</main>
+<script src="assets/search.js"></script>
+<script>
+const q = document.getElementById('q'), results = document.getElementById('results'), grid = document.getElementById('grid');
+const norm = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[’']/g, "'");
+const escH = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const clock = s => { const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = s % 60; return (h ? h + ':' + String(m).padStart(2, '0') : m) + ':' + String(x).padStart(2, '0'); };
+function mark(text, words) {
+  let out = escH(text);
+  words.forEach(w => { if (w) out = out.replace(new RegExp('(' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'), '<mark>$1</mark>'); });
+  return out;
+}
+function snippet(text, w) {
+  const i = norm(text).indexOf(w); if (i < 0 || text.length < 170) return text;
+  const a = Math.max(0, i - 70); return (a ? '…' : '') + text.slice(a, a + 170) + '…';
+}
+function run() {
+  const raw = q.value.trim();
+  try { history.replaceState(null, '', raw ? '#q=' + encodeURIComponent(raw) : location.pathname); } catch (e) {}
+  if (raw.length < 2) { results.hidden = true; results.innerHTML = ''; grid.querySelectorAll('.tile').forEach(t => t.hidden = false); return; }
+  const words = norm(raw).split(/\s+/).filter(Boolean);
+  const all = w => s => words.every(x => s.includes(x));
+  const groups = [];
+  SEARCH.forEach(s => {
+    const titleHit = all()(norm(s.title));
+    const aboutHit = all()(norm(s.about || ''));
+    const hits = s.items.filter(it => all()(norm(it[1])));
+    if (!titleHit && !aboutHit && !hits.length) return;
+    groups.push({ s, titleHit, hits, score: (titleHit ? 100 : 0) + (aboutHit ? 20 : 0) + hits.filter(h => h[2] === 'o').length * 5 + hits.length });
+  });
+  groups.sort((a, b) => b.score - a.score);
+  const shown = new Set(groups.map(g => g.s.slug));
+  grid.querySelectorAll('.tile').forEach(t => t.hidden = !shown.has(t.dataset.slug));
+  results.hidden = false;
+  if (!groups.length) { results.innerHTML = '<div class="none">No matches for “' + escH(raw) + '”.</div>'; return; }
+  results.innerHTML = groups.map(g => {
+    const o = g.hits.filter(h => h[2] === 'o'), t = g.hits.filter(h => h[2] === 't');
+    const list = o.concat(t).slice(0, 6);
+    const rows = list.map(h => `<a class="hit${h[2] === 't' ? ' said' : ''}" href="sessions/${g.s.slug}.html#t=${h[0]}"><span class="t">${clock(h[0])}</span><span class="x">${mark(h[2] === 't' ? '“' + snippet(h[1], words[0]) + '”' : h[1], words)}</span></a>`).join('');
+    const extra = g.hits.length - list.length;
+    return `<div class="rgroup"><h2><a href="sessions/${g.s.slug}.html">${mark(g.s.title, words)}</a></h2>${rows}${extra > 0 ? `<div class="more">+ ${extra} more mention${extra > 1 ? 's' : ''} in this session</div>` : ''}</div>`;
+  }).join('');
+}
+q.addEventListener('input', run);
+const m = location.hash.match(/^#q=(.*)$/); if (m) { q.value = decodeURIComponent(m[1]); run(); }
+</script>
 </body>
 </html>
